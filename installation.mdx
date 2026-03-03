@@ -1,0 +1,180 @@
+---
+title: Installation
+description: Install Izzy Music Player on your Mac with step-by-step instructions
+---
+
+## System requirements
+
+Before installing Izzy, ensure your system meets the following requirements:
+
+<CardGroup cols={2}>
+  <Card title="macOS version" icon="apple">
+    macOS 14.0 (Sonoma) or later
+  </Card>
+  <Card title="Python version" icon="python">
+    Python 3.13 or higher (strictly required)
+  </Card>
+  <Card title="Internet connection" icon="wifi">
+    Required for streaming music
+  </Card>
+  <Card title="Storage space" icon="hard-drive">
+    Approximately 100 MB for the app
+  </Card>
+</CardGroup>
+
+<Warning>
+  **Python 3.13 or higher is strictly required.** The app will not work with earlier Python versions (3.12, 3.11, etc.). Install Python 3.13+ before launching Izzy.
+</Warning>
+
+## Install Python 3.13+
+
+If you don't have Python 3.13 or higher installed, use Homebrew to install it:
+
+```bash
+brew install python@3.13
+```
+
+Verify your Python installation:
+
+```bash
+python3 --version
+```
+
+You should see version 3.13 or higher.
+
+## Download and install Izzy
+
+<Steps>
+  <Step title="Download the latest release">
+    Visit the [Releases page](https://github.com/ShubhamPP04/Izzy/releases) on GitHub and download the latest DMG file for Izzy Music Player.
+  </Step>
+  
+  <Step title="Open the DMG file">
+    Double-click the downloaded DMG file to mount it. A new Finder window will open showing the Izzy app icon.
+  </Step>
+  
+  <Step title="Drag Izzy to Applications">
+    Drag the Izzy app icon to your Applications folder to install it.
+  </Step>
+  
+  <Step title="Remove quarantine attribute">
+    Open Terminal and run the following command to remove the quarantine attribute:
+    
+    ```bash
+    xattr -rd com.apple.quarantine "/Applications/Izzy.app"
+    ```
+    
+    This allows Izzy to run without macOS Gatekeeper restrictions.
+  </Step>
+  
+  <Step title="Launch Izzy">
+    Open Izzy from your Applications folder or use Spotlight search (`Cmd + Space`, then type "Izzy").
+  </Step>
+</Steps>
+
+## First launch setup
+
+When you launch Izzy for the first time, you may encounter a security prompt from macOS.
+
+<Steps>
+  <Step title="Security prompt appears">
+    If macOS blocks the app from opening, you'll see a dialog stating that Izzy cannot be opened because the developer cannot be verified.
+  </Step>
+  
+  <Step title="Open System Settings">
+    Go to **System Settings** > **Privacy & Security**. Scroll down to the Security section.
+  </Step>
+  
+  <Step title="Allow Izzy to run">
+    You'll see a message about Izzy being blocked. Click the **"Open Anyway"** button next to the message.
+  </Step>
+  
+  <Step title="Confirm and launch">
+    Click **"Open"** in the confirmation dialog. Izzy will launch and automatically set up Python dependencies.
+  </Step>
+</Steps>
+
+<Info>
+  The first launch may take a minute or two as Izzy sets up the Python virtual environment and installs required dependencies. Subsequent launches will be much faster.
+</Info>
+
+## Post-installation configuration
+
+After installation, you can customize Izzy to your preferences:
+
+### Configure the global hotkey
+
+The default global hotkey is `Option + Space`. You can customize this in Settings:
+
+1. Click the Settings icon (⚙️) in Izzy
+2. Navigate to the Keyboard section
+3. Set your preferred hotkey combination
+
+### Select your music service
+
+Choose your preferred streaming service:
+
+1. Open **Settings** (⚙️ icon)
+2. Select **YouTube Music**, **Tidal**, or **JioSaavn** from the top of the settings panel
+3. The service will switch immediately
+
+### Enable AI recommendations (optional)
+
+To unlock AI-powered recommendations:
+
+1. Get a free API key from [Google AI Studio](https://ai.google.dev/gemini-api/docs/get-started)
+2. Open Izzy **Settings**
+3. Paste your Gemini API key in the designated field
+4. The "For You" section on the Home tab will now show personalized recommendations with an AI badge (✨)
+
+<Tip>
+  AI recommendations analyze your listening history to suggest songs based on genre, mood, and style. Play a few songs first to build your listening profile.
+</Tip>
+
+## Troubleshooting installation
+
+<AccordionGroup>
+  <Accordion title="Python version error" icon="exclamation-triangle">
+    If Izzy fails to launch with a Python error:
+    
+    1. Verify you have Python 3.13+ installed: `python3 --version`
+    2. If not, install it: `brew install python@3.13`
+    3. Restart Izzy after installing the correct Python version
+  </Accordion>
+  
+  <Accordion title="Quarantine attribute issues" icon="shield">
+    If you get repeated security warnings:
+    
+    1. Ensure you ran the quarantine removal command correctly
+    2. Try this alternative: `sudo xattr -rd com.apple.quarantine "/Applications/Izzy.app"`
+    3. Restart your Mac if the issue persists
+  </Accordion>
+  
+  <Accordion title="Python dependencies fail to install" icon="box">
+    If dependency installation fails on first launch:
+    
+    1. Check your internet connection
+    2. Manually create the virtual environment by running Izzy's setup script from the app bundle
+    3. Check Console.app for detailed error messages
+  </Accordion>
+  
+  <Accordion title="App won't open at all" icon="ban">
+    If Izzy refuses to launch:
+    
+    1. Verify macOS version is 14.0 or later
+    2. Try moving Izzy out of Applications and back in
+    3. Reinstall by downloading a fresh DMG from the Releases page
+  </Accordion>
+</AccordionGroup>
+
+## What's next?
+
+Now that Izzy is installed, you're ready to start playing music!
+
+<Card
+  title="Follow the quick start guide"
+  icon="rocket"
+  href="/quickstart"
+>
+  Learn how to search for music, play songs, and use essential features
+</Card>

@@ -1,0 +1,158 @@
+---
+title: Music services
+description: Stream from YouTube Music, Tidal, and JioSaavn with seamless switching
+---
+
+Izzy Music Player integrates three major music streaming services, giving you access to millions of songs with different quality options and catalogs.
+
+## Supported services
+
+<CardGroup cols={3}>
+  <Card title="YouTube Music" icon="youtube">
+    Stream millions of songs from YouTube Music's vast catalog
+  </Card>
+  <Card title="Tidal" icon="water">
+    Hi-Res lossless audio up to 24-bit/192kHz FLAC
+  </Card>
+  <Card title="JioSaavn" icon="music">
+    Access India's largest music streaming platform
+  </Card>
+</CardGroup>
+
+## YouTube Music
+
+Access YouTube Music's extensive catalog with billions of songs, official releases, and live performances.
+
+### Features
+
+- Real-time search with intelligent suggestions
+- Full album and playlist support
+- Artist browsing and discovery
+- Video content streaming
+- Recently played tracking
+- Personalized recommendations
+
+### Technical details
+
+- **Backend**: ytmusicapi and yt-dlp
+- **Audio format**: M4A/AAC
+- **Quality**: High quality streaming (128-256 kbps AAC)
+
+<Info>
+YouTube Music is the default service and requires no additional configuration.
+</Info>
+
+## Tidal
+
+Experience premium audio quality with Tidal's Hi-Res lossless streaming powered by [hifi-api](https://github.com/uimaxbai/hifi-api).
+
+### Quality tiers
+
+Tidal provides visual quality badges on every song to show the audio quality:
+
+<Tabs>
+  <Tab title="Hi-Res">
+    **Hi-Res Lossless** - Up to 24-bit/192kHz FLAC
+    
+    The highest quality tier with studio-master audio. Displays a gold **Hi-Res** badge.
+    
+    - Sample rate: Up to 192kHz
+    - Bit depth: 24-bit
+    - Format: FLAC
+    - Typical file size: 100-200 MB per song
+  </Tab>
+  <Tab title="Lossless">
+    **Lossless** - 16-bit/44.1kHz FLAC (CD quality)
+    
+    CD-quality lossless audio. Displays a teal **Lossless** badge.
+    
+    - Sample rate: 44.1kHz
+    - Bit depth: 16-bit
+    - Format: FLAC
+    - Typical file size: 30-50 MB per song
+  </Tab>
+  <Tab title="High">
+    **High Quality** - AAC 320kbps
+    
+    High-quality compressed audio. Displays a gray **HQ** badge.
+    
+    - Codec: AAC
+    - Bitrate: 320kbps
+    - Format: M4A
+  </Tab>
+</Tabs>
+
+### Performance optimizations
+
+- **Smart caching** - Frequently accessed tracks are cached for faster playback
+- **Connection pooling** - Optimized network connections for smooth streaming
+- **Quality detection** - Automatic quality badge display based on track availability
+
+### Technical details
+
+- **Backend**: hifi-api integration
+- **Audio formats**: FLAC (lossless/Hi-Res), M4A (high quality)
+- **API**: RESTful integration with Tidal streaming service
+
+<Note>
+Quality availability depends on the track. Not all songs are available in Hi-Res or Lossless quality.
+</Note>
+
+## JioSaavn
+
+Access India's largest music streaming platform with an extensive catalog of Bollywood, regional, and international music.
+
+### Features
+
+- Comprehensive Indian music catalog
+- Bollywood hits and classics
+- Regional language content (Tamil, Telugu, Punjabi, and more)
+- International music collection
+- Curated playlists and charts
+
+### Technical details
+
+- **Backend**: saavn.dev API
+- **Audio format**: M4A/AAC
+- **Quality**: High quality streaming
+
+## Switching between services
+
+Seamlessly switch between music services at any time:
+
+1. Open **Settings** by clicking the gear icon (⚙️)
+2. Select your preferred service from the dropdown at the top:
+   - YouTube Music
+   - Tidal  
+   - JioSaavn
+3. The service switches immediately - no restart required
+
+<Tip>
+Your favorites, playlists, and queue are preserved when switching services. Each track remembers which service it came from.
+</Tip>
+
+## Service indicators
+
+Each track displays a colored indicator showing its source:
+
+- **Red** - YouTube Music
+- **Light Blue** - Tidal
+- **Green** - JioSaavn
+
+This helps you identify which service a song came from, especially when mixing tracks from multiple services in playlists and queues.
+
+## Integration architecture
+
+Izzy uses a Python backend service that communicates with each music platform:
+
+```
+Izzy macOS App (Swift/SwiftUI)
+       ↓
+Python Service Manager
+       ↓
+├── ytmusicapi → YouTube Music
+├── hifi-api → Tidal
+└── saavn.dev → JioSaavn
+```
+
+The Python service (requires Python 3.13+) handles all API communication, stream extraction, and quality detection.

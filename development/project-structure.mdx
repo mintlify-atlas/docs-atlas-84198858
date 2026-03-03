@@ -1,0 +1,311 @@
+---
+title: Project structure
+description: Directory structure and organization of the Izzy Music Player codebase
+---
+
+Izzy Music Player follows a modular, feature-based organization with clear separation between frontend Swift code and backend Python services.
+
+## Root directory structure
+
+```
+~/workspace/source/Izzy/
+├── IzzyApp.swift              # App entry point and initialization
+├── AppCoordinator.swift       # Main app coordinator
+├── ContentView.swift          # Root content view
+├── Info.plist                 # App configuration
+├── Izzy.entitlements         # App sandbox entitlements
+│
+├── Managers/                  # Business logic managers
+├── Services/                  # External service integrations
+├── Models/                    # Data models and types
+├── Views/                     # SwiftUI views and UI
+│
+├── Assets.xcassets/          # Images, icons, colors
+├── ytmusic_service.py        # Python backend service
+│
+└── Supporting Files/
+    ├── WindowManager.swift
+    ├── GlobalHotkeyManager.swift
+    ├── FloatingPanel.swift
+    ├── SearchBar.swift
+    └── SearchState.swift
+```
+
+## Managers directory
+
+Managers contain the core business logic for different features:
+
+```
+Managers/
+├── PlaybackManager.swift          # Audio playback and queue (44KB)
+├── MusicSearchManager.swift       # Music search logic (12KB)
+├── MenuBarManager.swift           # Menu bar player (15KB)
+├── MiniPlayerManager.swift        # Floating mini player (8KB)
+├── PlaylistManager.swift          # Playlist management (4KB)
+├── NowPlayingManager.swift        # macOS Now Playing (11KB)
+├── AISearchViewModel.swift        # AI search with Gemini (6KB)
+└── SettingsWindowManager.swift    # Settings window (empty)
+```
+
+### Key managers
+
+#### PlaybackManager.swift:309
+The largest and most complex manager, handling:
+- AVPlayer integration for audio playback
+- Queue management (play queue, up next, shuffle)
+- Playback controls (play, pause, skip, seek)
+- Stream URL fetching from Python service
+- Playback state persistence
+- Auto-play and crossfade features
+
+#### MusicSearchManager.swift:309
+Handles music search functionality:
+- Debounced search queries
+- Result filtering and sorting
+- Search history
+- Integration with PythonServiceManager
+
+#### MenuBarManager.swift:309
+Manages the menu bar player interface:
+- Status item in macOS menu bar
+- Now playing display
+- Playback controls in menu bar
+- Click actions and popover
+
+## Services directory
+
+Services provide infrastructure and external API integrations:
+
+```
+Services/
+├── PythonServiceManager.swift     # Python backend management (29KB)
+├── DownloadManager.swift          # Music download service (21KB)
+├── UpdateManager.swift            # App update checking (7KB)
+└── GeminiService.swift           # Gemini AI integration (empty)
+```
+
+### Key services
+
+#### PythonServiceManager.swift:81
+Manages the Python backend process:
+- Process lifecycle (start, stop, restart)
+- JSON request/response handling
+- Pipe-based IPC communication
+- Timeout and error handling
+- Automatic retry logic
+- Inactivity-based suspension
+- Convenience methods for all music operations
+
+#### DownloadManager.swift:309
+Handles music downloads:
+- Stream URL extraction
+- File download and storage
+- Progress tracking
+- Download queue management
+
+## Models directory
+
+Data structures and type definitions:
+
+```
+Models/
+├── MusicModels.swift    # Core music data models (14KB)
+└── Playlist.swift       # Playlist data structures (2KB)
+```
+
+### MusicModels.swift:309
+Defines all core data types:
+
+**Music Sources:**
+- `MusicSource` enum (YouTube Music, JioSaavn, Tidal)
+
+**Search Types:**
+- `SearchResult` - Individual search result
+- `SearchResultType` - Type of result (song, album, artist, playlist)
+- `MusicSearchResults` - Grouped search results
+- `AISearchResponse` - AI search with insights
+
+**Playback Types:**
+- `Track` - Playback track model
+- `PlaybackState` - Current playback state
+- `RepeatMode` - Repeat settings
+- `StreamInfo` - Stream URL information
+
+**Library Types:**
+- `FavoriteSong` - Favorite track with metadata
+- `PlaybackData` - Persistence model
+
+**Discovery Types:**
+- `HomeSection` - Home feed sections
+- `ChartsData` - Music charts
+- `MoodCategory` - Mood/genre categories
+
+## Views directory
+
+SwiftUI views organized by feature:
+
+```
+Views/
+├── HomeView.swift                 # Main home screen (84KB)
+├── SearchResultsView.swift        # Search results display (43KB)
+├── MusicSearchView.swift          # Search interface (25KB)
+├── PlaybackControlsView.swift     # Playback UI (61KB)
+├── SettingsView.swift             # App settings (31KB)
+│
+├── PlaylistView.swift             # Playlist viewer (36KB)
+├── FavoritesView.swift           # Favorites list (15KB)
+├── RecentlyPlayedView.swift      # Recently played (18KB)
+├── QueueView.swift               # Play queue (6KB)
+├── UpNextView.swift              # Up next queue (8KB)
+│
+├── AISearchView.swift            # AI search interface (20KB)
+├── AddToPlaylistView.swift       # Playlist picker (4KB)
+│
+├── MenuBarView.swift             # Menu bar popover (11KB)
+├── MiniPlayerView.swift          # Mini player UI (12KB)
+├── MiniPlayerWindow.swift        # Mini player window (3KB)
+│
+├── LiquidGlassModifier.swift     # Glass effect modifier (9KB)
+├── DragHandleView.swift          # Draggable handle (1KB)
+│
+├── LibraryView.swift             # Library section (empty)
+├── LibrarySectionView.swift      # Library subsection (empty)
+│
+└── Components/
+    └── TidalQualityBadge.swift   # Tidal quality indicator (1KB)
+```
+
+### View organization
+
+Views are categorized by function:
+
+**Main Navigation:**
+- HomeView - Primary interface with discovery feed
+- SearchResultsView - Search results with filtering
+- MusicSearchView - Search bar and interface
+
+**Playback:**
+- PlaybackControlsView - Player controls and progress
+- QueueView - Current play queue
+- UpNextView - Up next queue visualization
+
+**Library:**
+- FavoritesView - Liked songs collection
+- PlaylistView - Custom playlists
+- RecentlyPlayedView - Listen history
+
+**Alternate Interfaces:**
+- MenuBarView - Menu bar player popover
+- MiniPlayerView - Floating mini player
+- AISearchView - AI-powered search
+
+## Supporting files
+
+Core utilities and coordinators:
+
+### WindowManager.swift:309
+Manages floating panel windows:
+- Window creation and configuration
+- Show/hide animations
+- Positioning and sizing
+- Focus management
+
+### GlobalHotkeyManager.swift:309
+Global keyboard shortcuts:
+- Hotkey registration
+- Default: Option + Space
+- Customizable shortcuts
+- Carbon events integration
+
+### FloatingPanel.swift:309
+Custom NSPanel subclass:
+- Floating window behavior
+- Always-on-top positioning
+- Click-through and focus handling
+
+### SearchBar.swift:309
+Reusable search bar component:
+- Text input with placeholder
+- Search icon and clear button
+- Focus state management
+
+### SearchState.swift:309
+Global search state management:
+- Search query tracking
+- Results caching
+- Search history
+- Integration with managers
+
+## Python backend
+
+### ytmusic_service.py:1
+Python backend service (177KB) providing:
+
+**Music Service Integrations:**
+- YouTube Music API (ytmusicapi)
+- JioSaavn integration (saavn.dev)
+- Tidal integration
+- Gemini AI search
+
+**Core Functionality:**
+- Music search across services
+- Stream URL extraction (yt-dlp)
+- Album/playlist/artist browsing
+- Home feed and charts
+- Mood-based playlists
+- AI-powered search
+
+**Architecture:**
+- Async request handling
+- JSON stdin/stdout communication
+- Service abstraction layer
+- Error handling and logging
+
+## Assets
+
+```
+Assets.xcassets/
+└── AppIcon.appiconset/
+    ├── icon_16x16.png
+    ├── icon_32x32.png
+    ├── icon_128x128.png
+    ├── icon_256x256.png
+    ├── icon_512x512.png
+    └── Contents.json
+```
+
+Contains app icons in various sizes for macOS.
+
+## Configuration files
+
+### Info.plist
+App metadata and configuration:
+- Bundle identifier
+- Version information
+- Required device capabilities
+- URL schemes
+
+### Izzy.entitlements
+Sandbox permissions:
+- Network access (outgoing)
+- Audio input/output
+- File system access
+- User-selected files
+
+## File size distribution
+
+Largest files by size:
+1. ytmusic_service.py - 177KB (Python backend)
+2. HomeView.swift - 84KB
+3. PlaybackControlsView.swift - 61KB
+4. PlaybackManager.swift - 44KB
+5. SearchResultsView.swift - 43KB
+6. PlaylistView.swift - 36KB
+7. SettingsView.swift - 31KB
+8. PythonServiceManager.swift - 29KB
+
+## Dependencies location
+
+Python dependencies are specified in `~/workspace/source/requirements.txt` and installed in:
+- Bundled: `Resources/music_env/` (created by build script)
+- System: System Python with pip packages

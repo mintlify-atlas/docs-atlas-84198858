@@ -1,0 +1,119 @@
+---
+title: Setup instructions
+description: Clone the repository and install dependencies for Izzy Music Player
+---
+
+This guide walks you through setting up the Izzy Music Player development environment.
+
+## Clone the repository
+
+First, clone the Izzy Music Player repository from GitHub:
+
+```bash
+git clone https://github.com/ShubhamPP04/Izzy.git
+cd Izzy
+```
+
+## Python environment setup
+
+Izzy uses a Python virtual environment to manage its backend dependencies.
+
+<Steps>
+  <Step title="Run the setup script">
+    Make the setup script executable and run it to create the Python virtual environment:
+    
+    ```bash
+    chmod +x setup.sh
+    ./setup.sh
+    ```
+    
+    This script creates a virtual environment named `music_env` in the project directory.
+  </Step>
+  
+  <Step title="Install Python dependencies">
+    Install the required Python packages:
+    
+    ```bash
+    pip install -r requirements.txt
+    ```
+    
+    This installs:
+    - ytmusicapi (>= 1.7.0)
+    - yt-dlp (>= 2023.12.30)
+    - requests (>= 2.31.0)
+  </Step>
+  
+  <Step title="Verify installation">
+    Activate the virtual environment and verify Python version:
+    
+    ```bash
+    source music_env/bin/activate
+    python --version
+    ```
+    
+    The output should show Python 3.13.0 or higher.
+  </Step>
+</Steps>
+
+## Project structure
+
+After cloning, your project directory will have the following structure:
+
+```
+Izzy/
+├── Izzy/                          # Main app source
+│   ├── IzzyApp.swift             # App entry point
+│   ├── Views/                    # SwiftUI views
+│   ├── Managers/                 # Business logic
+│   ├── Models/                   # Data models
+│   ├── Services/                 # External integrations
+│   └── ytmusic_service.py       # Python backend
+├── build/                        # Build outputs
+├── releases/                     # Release builds
+├── requirements.txt             # Python dependencies
+├── setup.sh                     # Virtual environment setup
+└── build_dmg.sh                 # DMG creation script
+```
+
+## Opening the project
+
+You can open the project in Xcode using either method:
+
+<CodeGroup>
+```bash Terminal
+open Izzy.xcodeproj
+```
+
+```bash Finder
+# Double-click Izzy.xcodeproj in Finder
+```
+</CodeGroup>
+
+## Troubleshooting
+
+### Python environment issues
+
+If you encounter issues with the Python virtual environment:
+
+```bash
+# Verify Python environment
+cd /path/to/Izzy
+source music_env/bin/activate
+python --version
+
+# Reinstall dependencies
+pip install --upgrade -r requirements.txt
+```
+
+### Permission issues
+
+If you get permission errors when running scripts:
+
+```bash
+chmod +x setup.sh
+chmod +x build_dmg.sh
+```
+
+## Next steps
+
+With your development environment set up, you're ready to [build the app](/development/building).

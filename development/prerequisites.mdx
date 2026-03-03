@@ -1,0 +1,93 @@
+---
+title: Build prerequisites
+description: Required tools and dependencies for building Izzy Music Player
+---
+
+Before building Izzy Music Player from source, ensure you have the following prerequisites installed on your macOS system.
+
+## System requirements
+
+- macOS 14.0 (Sonoma) or later
+- Xcode (latest version from the App Store)
+- Command Line Tools for Xcode
+- Python 3.13 or higher
+
+## Xcode
+
+Izzy Music Player is built using Swift 5.9+ and SwiftUI. You'll need the latest version of Xcode installed.
+
+<Steps>
+  <Step title="Install Xcode">
+    Download and install Xcode from the Mac App Store.
+  </Step>
+  
+  <Step title="Install Command Line Tools">
+    After installing Xcode, install the command line tools:
+    
+    ```bash
+    xcode-select --install
+    ```
+  </Step>
+  
+  <Step title="Verify installation">
+    Confirm that Xcode is properly installed:
+    
+    ```bash
+    xcode-select -p
+    ```
+    
+    This should output the path to your Xcode installation.
+  </Step>
+</Steps>
+
+## Python 3.13+
+
+<Warning>
+  Python 3.13 or higher is strictly required. The app will not work with earlier Python versions (3.12, 3.11, etc.).
+</Warning>
+
+Izzy Music Player uses Python for its music service backend, which handles YouTube Music, Tidal, and JioSaavn integration.
+
+### Installing Python
+
+The recommended way to install Python 3.13+ is using Homebrew:
+
+```bash
+brew install python@3.13
+```
+
+### Verify Python version
+
+After installation, verify that Python 3.13+ is installed:
+
+```bash
+python3 --version
+```
+
+The output should show version 3.13.0 or higher.
+
+## Python dependencies
+
+The following Python packages are required and will be installed during setup:
+
+- **ytmusicapi** (>= 1.7.0) - YouTube Music API integration
+- **yt-dlp** (>= 2023.12.30) - Video/audio stream extraction
+- **requests** (>= 2.31.0) - HTTP requests for JioSaavn and Tidal
+
+## Optional tools
+
+### FFmpeg
+
+FFmpeg is optional but recommended for the song download feature. It enables embedding album art and metadata into downloaded audio files.
+
+```bash
+brew install ffmpeg
+```
+
+### Code signing
+
+If you plan to distribute the app, you'll need an Apple Developer account and a valid signing certificate. Set the `CODESIGN_IDENTITY` environment variable to your signing identity.
+
+## Next steps
+
+Once you have all prerequisites installed, proceed to [Setup](/development/setup) to clone the repository and install dependencies.

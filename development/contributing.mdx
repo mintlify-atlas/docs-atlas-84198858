@@ -1,0 +1,277 @@
+---
+title: Contributing guidelines
+description: Learn how to contribute to Izzy Music Player
+---
+
+We welcome contributions to Izzy Music Player! This guide will help you get started with contributing code, fixing bugs, and adding new features.
+
+## Prerequisites
+
+Before you start contributing, make sure you have:
+
+- macOS 14.0 (Sonoma) or later
+- Xcode with Command Line Tools installed
+- Python 3.13 or higher
+- Git for version control
+- Basic knowledge of Swift/SwiftUI and Python
+
+## Getting started
+
+<Steps>
+  <Step title="Fork the repository">
+    Go to the [Izzy GitHub repository](https://github.com/ShubhamPP04/Izzy) and click the "Fork" button to create your own copy of the project.
+  </Step>
+
+  <Step title="Clone your fork">
+    Clone your forked repository to your local machine:
+
+    ```bash
+    git clone https://github.com/YOUR_USERNAME/Izzy.git
+    cd Izzy
+    ```
+  </Step>
+
+  <Step title="Set up the development environment">
+    Run the setup script to create the Python virtual environment:
+
+    ```bash
+    chmod +x setup.sh
+    ./setup.sh
+    ```
+
+    Install Python dependencies:
+
+    ```bash
+    pip install -r requirements.txt
+    ```
+  </Step>
+
+  <Step title="Open the project in Xcode">
+    Open the Xcode project:
+
+    ```bash
+    open Izzy.xcodeproj
+    ```
+
+    Build and run the project to ensure everything works correctly.
+  </Step>
+</Steps>
+
+## Development workflow
+
+### Creating a feature branch
+
+Always create a new branch for your work. Use descriptive branch names that indicate what you're working on:
+
+```bash
+# For new features
+git checkout -b feature/add-playlist-export
+
+# For bug fixes
+git checkout -b fix/playback-resume-issue
+
+# For improvements
+git checkout -b improvement/optimize-search-performance
+```
+
+### Making changes
+
+While developing:
+
+1. **Follow the code style guidelines** documented in the [Code style](/development/code-style) page
+2. **Test your changes** thoroughly on different scenarios
+3. **Keep commits focused** - each commit should represent a single logical change
+4. **Write descriptive commit messages** that explain why the change was made
+
+### Commit message format
+
+Use clear, descriptive commit messages following this pattern:
+
+```bash
+# Good examples
+git commit -m "Add playlist export to CSV feature"
+git commit -m "Fix playback resume on app restart"
+git commit -m "Optimize search results caching"
+git commit -m "Update Python dependencies for security"
+
+# Bad examples
+git commit -m "Fix bug"  # Too vague
+git commit -m "WIP"  # Not descriptive
+git commit -m "Changes"  # No context
+```
+
+### Testing your changes
+
+Before submitting a pull request:
+
+- Build and run the app from Xcode
+- Test the feature/fix manually in different scenarios
+- Check for console errors or warnings
+- Verify that existing features still work correctly
+- Test with different music services (YouTube Music, Tidal, JioSaavn)
+
+## Submitting a pull request
+
+<Steps>
+  <Step title="Push your changes">
+    Push your feature branch to your fork:
+
+    ```bash
+    git push origin feature/your-feature-name
+    ```
+  </Step>
+
+  <Step title="Create a pull request">
+    Go to the original Izzy repository on GitHub and click "New Pull Request". Select your fork and branch as the source.
+  </Step>
+
+  <Step title="Write a clear description">
+    In your pull request description, include:
+
+    - **What** - A clear description of what the PR does
+    - **Why** - The reason for the change (bug fix, new feature, improvement)
+    - **How** - Brief explanation of your implementation approach
+    - **Testing** - How you tested the changes
+    - **Screenshots** - If the change affects the UI
+
+    Example:
+
+    ```markdown
+    ## What
+    Adds the ability to export playlists to CSV format
+
+    ## Why
+    Users have requested the ability to backup and share their playlists
+
+    ## How
+    - Added export button to playlist view
+    - Implemented CSV serialization for playlist data
+    - Added file picker dialog for save location
+
+    ## Testing
+    - Tested with playlists of various sizes (5-100 songs)
+    - Verified CSV format compatibility with Excel and Google Sheets
+    - Tested with songs from all three music services
+
+    ## Screenshots
+    [Attach screenshots showing the new export button and CSV output]
+    ```
+  </Step>
+
+  <Step title="Wait for review">
+    The maintainers will review your pull request. Be responsive to feedback and make any requested changes.
+  </Step>
+</Steps>
+
+## Pull request checklist
+
+Before submitting, make sure:
+
+- [ ] Code follows the Swift and Python style guidelines
+- [ ] All new code has appropriate comments and documentation
+- [ ] The app builds and runs without errors
+- [ ] Changes have been tested manually
+- [ ] Commit messages are clear and descriptive
+- [ ] No sensitive data (API keys, credentials) is included
+- [ ] Pull request description clearly explains the changes
+
+## Areas to contribute
+
+### Bug fixes
+
+Check the [GitHub issues](https://github.com/ShubhamPP04/Izzy/issues) for reported bugs. Look for issues tagged with `bug` or `good first issue`.
+
+### New features
+
+Some ideas for new features:
+
+- Additional music service integrations
+- Enhanced playlist management features
+- Improved search filters and sorting
+- Keyboard shortcuts customization
+- Export/import functionality
+- Social features (sharing playlists)
+
+### Performance improvements
+
+Izzy is optimized for battery efficiency. Contributions that improve:
+
+- Playback performance
+- Search speed
+- Memory usage
+- Network efficiency
+- UI responsiveness
+
+### Documentation
+
+Help improve:
+
+- Code comments and documentation
+- User guides and tutorials
+- API documentation
+- Troubleshooting guides
+
+## Architecture overview
+
+### Swift/SwiftUI app structure
+
+```
+Izzy/
+├── IzzyApp.swift              # App entry point
+├── Views/                     # SwiftUI views
+│   ├── ContentView.swift
+│   ├── HomeView.swift
+│   ├── SearchResultsView.swift
+│   └── ...
+├── Managers/                  # Business logic
+│   ├── PlaybackManager.swift  # Audio playback
+│   ├── MusicSearchManager.swift
+│   └── ...
+├── Models/                    # Data models
+│   ├── MusicModels.swift
+│   ├── Playlist.swift
+│   └── ...
+└── Services/                  # External integrations
+    ├── PythonServiceManager.swift
+    ├── GeminiService.swift
+    └── ...
+```
+
+### Python backend
+
+The Python backend (`ytmusic_service.py`) handles:
+
+- YouTube Music API integration via `ytmusicapi`
+- JioSaavn API integration via `saavn.dev`
+- Tidal integration via `hifi-api`
+- Audio stream URL extraction via `yt-dlp`
+- AI-powered search via Google Gemini
+
+### Communication flow
+
+1. Swift app communicates with Python service via standard input/output
+2. Requests are JSON-encoded commands
+3. Python service processes requests and returns JSON responses
+4. Managers parse responses and update SwiftUI views
+
+## Getting help
+
+If you need help:
+
+- Check existing [GitHub issues](https://github.com/ShubhamPP04/Izzy/issues)
+- Review the [project structure](/development/code-style#project-organization) in the code style guide
+- Look at existing code for similar functionality
+- Ask questions in your pull request or issue
+
+## Code of conduct
+
+Be respectful and constructive:
+
+- Be welcoming to newcomers
+- Provide helpful feedback
+- Focus on the code, not the person
+- Respect different viewpoints and experiences
+
+## License
+
+By contributing to Izzy Music Player, you agree that your contributions will be licensed under the MIT License.

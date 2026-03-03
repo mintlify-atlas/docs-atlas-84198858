@@ -1,0 +1,469 @@
+---
+title: Troubleshooting
+description: Solutions to common issues and problems you may encounter while using Izzy Music Player
+---
+
+Find solutions to common issues below. If you don't find an answer here, please report the issue on [GitHub](https://github.com/ShubhamPP04/Izzy/issues).
+
+## Python service issues
+
+<AccordionGroup>
+  <Accordion title="Izzy won't launch or crashes on startup">
+    **Cause**: Python 3.13+ is required but not installed or not found.
+    
+    **Solution**:
+    
+    1. Verify Python version:
+       ```bash
+       python3 --version
+       ```
+    
+    2. If you don't have Python 3.13+, install it:
+       ```bash
+       brew install python@3.13
+       ```
+    
+    3. Restart Izzy after installing Python.
+    
+    <Warning>
+      Python 3.13 or higher is strictly required. Earlier versions (3.12, 3.11, etc.) will not work.
+    </Warning>
+  </Accordion>
+  
+  <Accordion title="Python service fails to start">
+    **Cause**: Python dependencies are missing or corrupted.
+    
+    **Solution**:
+    
+    1. Navigate to the Izzy directory:
+       ```bash
+       cd /Applications/Izzy.app/Contents/Resources
+       ```
+    
+    2. Activate the virtual environment:
+       ```bash
+       source music_env/bin/activate
+       ```
+    
+    3. Reinstall dependencies:
+       ```bash
+       pip install --upgrade -r requirements.txt
+       ```
+    
+    4. Restart Izzy.
+  </Accordion>
+  
+  <Accordion title="How to check if Python service is running">
+    **Solution**:
+    
+    1. Open Console.app (Applications > Utilities > Console)
+    2. Search for "Izzy" in the search bar
+    3. Look for Python service startup messages
+    4. Check for any error messages in red
+    
+    Normal startup should show messages like:
+    - "Python service started successfully"
+    - "Music backend initialized"
+  </Accordion>
+</AccordionGroup>
+
+## Audio playback issues
+
+<AccordionGroup>
+  <Accordion title="No sound or audio not playing">
+    **Possible causes**: Network issues, service unavailable, or audio extraction failure.
+    
+    **Solutions to try**:
+    
+    1. **Check your internet connection**:
+       - Ensure you're connected to the internet
+       - Try loading a website to verify connectivity
+    
+    2. **Try a different music service**:
+       - Go to **Settings** > **Music Source**
+       - Switch to a different service (YouTube Music, Tidal, or JioSaavn)
+       - Try playing a song again
+    
+    3. **Restart the app**:
+       - Press `Cmd + Q` to quit Izzy
+       - Relaunch from Applications
+    
+    4. **Check system volume**:
+       - Ensure macOS system volume isn't muted
+       - Check the volume slider in Izzy
+  </Accordion>
+  
+  <Accordion title="Playback stutters or buffers frequently">
+    **Cause**: Slow internet connection or network congestion.
+    
+    **Solutions**:
+    
+    1. **Check network speed**:
+       - Run a speed test to verify your connection
+       - Hi-Res audio requires faster connections
+    
+    2. **Switch to a lower quality service**:
+       - If using Tidal Hi-Res, try YouTube Music for lower bandwidth requirements
+    
+    3. **Close bandwidth-heavy apps**:
+       - Pause downloads or uploads
+       - Close streaming video apps
+    
+    4. **Reset network connection**:
+       - Disconnect and reconnect to Wi-Fi
+       - Restart your router if issues persist
+  </Accordion>
+  
+  <Accordion title="Songs skip or won't load">
+    **Cause**: Invalid stream URL or content not available.
+    
+    **Solutions**:
+    
+    1. **Try a different song**:
+       - Some content may be region-restricted
+       - Try searching for the same song from a different source
+    
+    2. **Clear cache by switching services**:
+       - Change music source to a different service and back
+       - This forces Izzy to refresh its cache
+    
+    3. **Check Console.app for errors**:
+       - Open Console.app and search for "Izzy"
+       - Look for "stream error" or "failed to load" messages
+  </Accordion>
+</AccordionGroup>
+
+## Interface issues
+
+<AccordionGroup>
+  <Accordion title="Menu bar player not showing">
+    **Solution**:
+    
+    1. Open **Settings** (⚙️)
+    2. Find the **Menu Bar Player** toggle
+    3. Toggle it **off** then **on** again
+    4. If still not visible, restart Izzy
+    5. Check your menu bar - the icon may be hidden if the menu bar is full
+  </Accordion>
+  
+  <Accordion title="Global hotkey not working">
+    **Cause**: Hotkey conflict with another app or system shortcut.
+    
+    **Solutions**:
+    
+    1. **Try a different modifier**:
+       - Go to **Settings** > **Global Hotkey**
+       - Choose a different modifier (Option, Control, etc.)
+       - Test the new shortcut
+    
+    2. **Check for conflicts**:
+       - If using `Command + Space`, check if Spotlight is using it
+       - Go to **System Settings** > **Keyboard** > **Keyboard Shortcuts**
+       - Disable or change conflicting shortcuts
+    
+    3. **Look for error messages**:
+       - Settings will show an error if hotkey registration failed
+       - Izzy automatically reverts to the last working shortcut
+  </Accordion>
+  
+  <Accordion title="Window won't appear or is off-screen">
+    **Cause**: Window position saved outside visible display area.
+    
+    **Solution**:
+    
+    1. Open **Settings** from menu bar (if visible) or use the global hotkey
+    2. Scroll to **Window Position**
+    3. Click **Center Window**
+    4. The window will move to the center of your screen
+  </Accordion>
+  
+  <Accordion title="UI elements are blurry or pixelated">
+    **Cause**: Display scaling or resolution issues.
+    
+    **Solutions**:
+    
+    1. **Check display settings**:
+       - Go to **System Settings** > **Displays**
+       - Ensure "Scaled" is set to your preferred resolution
+    
+    2. **Disable Liquid Glass Effect**:
+       - Go to **Settings** > **Liquid Glass Effect**
+       - Toggle it off to use standard rendering
+    
+    3. **Restart the app**:
+       - Quit and relaunch Izzy
+  </Accordion>
+</AccordionGroup>
+
+## AI features issues
+
+<AccordionGroup>
+  <Accordion title="AI recommendations not working">
+    **Cause**: Missing or invalid Gemini API key, or insufficient listening history.
+    
+    **Solutions**:
+    
+    1. **Verify API key is set**:
+       - Go to **Settings** > **AI Services**
+       - Check that a Gemini API key is entered
+       - You should see a green "Key saved" indicator
+    
+    2. **Get a valid API key**:
+       - Visit [Google AI Studio](https://ai.google.dev/gemini-api/docs/get-started)
+       - Create a free API key
+       - Paste it into the Gemini API Key field
+    
+    3. **Build listening history**:
+       - AI recommendations need data to work with
+       - Play at least 10-20 songs to build a profile
+       - The more you listen, the better the recommendations
+    
+    4. **Check for the AI badge**:
+       - Look for the ✨ badge next to "For You" on the Home tab
+       - If missing, AI features aren't enabled
+    
+    5. **Check Console.app for errors**:
+       - Open Console.app and search for "Gemini" or "AI"
+       - Look for API errors or authentication failures
+  </Accordion>
+  
+  <Accordion title="AI search returns no results">
+    **Cause**: API rate limits, invalid query, or service issues.
+    
+    **Solutions**:
+    
+    1. **Check API key status**:
+       - Verify your Gemini API key is valid
+       - Check if you've exceeded API rate limits
+    
+    2. **Rephrase your query**:
+       - Try simpler, more direct descriptions
+       - Example: Instead of "songs that remind me of summer vacation," try "upbeat summer music"
+    
+    3. **Wait and retry**:
+       - If you've hit rate limits, wait a few minutes
+       - Free API tiers have request limits
+    
+    4. **Use regular search instead**:
+       - Switch to the standard search tab
+       - Search by song name, artist, or album directly
+  </Accordion>
+  
+  <Accordion title="AI recommendations refresh is slow">
+    **Cause**: Network latency or API response delays.
+    
+    **Expected behavior**: Refreshes should take 2-4 seconds with parallel API calls.
+    
+    **If slower**:
+    
+    1. **Check internet speed**:
+       - Run a speed test
+       - Ensure you have a stable connection
+    
+    2. **Wait for completion**:
+       - Don't click refresh multiple times
+       - Let the current request finish
+    
+    3. **Clear listening history**:
+       - Very large histories may slow processing
+       - Consider clearing old entries from Recently Played
+  </Accordion>
+</AccordionGroup>
+
+## Download issues (Tidal)
+
+<AccordionGroup>
+  <Accordion title="Downloads fail or don't start">
+    **Cause**: Network issues, Tidal API errors, or invalid song.
+    
+    **Solutions**:
+    
+    1. **Ensure you're using Tidal**:
+       - Downloads only work with Tidal music source
+       - Go to **Settings** > **Music Source** > **Tidal**
+    
+    2. **Check internet connection**:
+       - Verify you're connected to the internet
+       - Try downloading a different song
+    
+    3. **Check download folder permissions**:
+       - Ensure `~/Downloads/Izzy Music/` is writable
+       - Check macOS privacy settings for disk access
+    
+    4. **Look for error notifications**:
+       - macOS will notify you if downloads fail
+       - Check notification center for error messages
+  </Accordion>
+  
+  <Accordion title="Downloaded songs missing album art">
+    **Cause**: FFmpeg not installed or not in PATH.
+    
+    **Solution**:
+    
+    1. **Install FFmpeg**:
+       ```bash
+       brew install ffmpeg
+       ```
+    
+    2. **Verify installation**:
+       ```bash
+       ffmpeg -version
+       ```
+    
+    3. **Re-download the song**:
+       - Delete the file without album art
+       - Download it again with FFmpeg installed
+    
+    <Info>
+      FFmpeg is optional but recommended for embedding album artwork and metadata into downloaded files.
+    </Info>
+  </Accordion>
+  
+  <Accordion title="Can't find downloaded songs">
+    **Solution**:
+    
+    1. **Check the default location**:
+       - Open Finder
+       - Navigate to `~/Downloads/Izzy Music/`
+       - Look for your downloaded files
+    
+    2. **Use Spotlight to search**:
+       - Press `Cmd + Space`
+       - Type the song name
+       - Filter by "Music" or "Documents"
+    
+    3. **Check download notifications**:
+       - Click notification when download completes
+       - It will open the file location in Finder
+  </Accordion>
+</AccordionGroup>
+
+## macOS security and permissions
+
+<AccordionGroup>
+  <Accordion title="Izzy cannot be opened because it is from an unidentified developer">
+    **Cause**: macOS Gatekeeper security.
+    
+    **Solution**:
+    
+    1. **Run the quarantine removal command**:
+       ```bash
+       xattr -rd com.apple.quarantine "/Applications/Izzy.app"
+       ```
+    
+    2. **Or use the System Settings method**:
+       - Go to **System Settings** > **Privacy & Security**
+       - Scroll down to the Security section
+       - Click **"Open Anyway"** next to the Izzy message
+    
+    3. **Relaunch Izzy**
+  </Accordion>
+  
+  <Accordion title="Izzy crashes on first launch">
+    **Cause**: Missing Python dependencies or permission issues.
+    
+    **Solutions**:
+    
+    1. **Check Python installation**:
+       ```bash
+       python3 --version
+       ```
+       Should show 3.13 or higher.
+    
+    2. **Check Console.app for crash logs**:
+       - Open Console.app
+       - Look for Izzy crash reports
+       - Check the error message for specifics
+    
+    3. **Reinstall the app**:
+       - Delete Izzy from Applications
+       - Empty Trash
+       - Download and install fresh from releases
+  </Accordion>
+  
+  <Accordion title="Permission prompts keep appearing">
+    **Cause**: macOS privacy protections.
+    
+    **Solution**:
+    
+    1. **Grant requested permissions**:
+       - Click **Allow** when prompted
+       - Izzy needs network access, disk access, and notification permissions
+    
+    2. **Check Privacy & Security settings**:
+       - Go to **System Settings** > **Privacy & Security**
+       - Verify Izzy has necessary permissions:
+         - Network (for streaming)
+         - Files and Folders (for downloads)
+         - Notifications (for download alerts)
+  </Accordion>
+</AccordionGroup>
+
+## Performance issues
+
+<AccordionGroup>
+  <Accordion title="App is slow or unresponsive">
+    **Solutions**:
+    
+    1. **Restart the app**:
+       - Quit Izzy completely (`Cmd + Q`)
+       - Wait a few seconds
+       - Relaunch from Applications
+    
+    2. **Clear large libraries**:
+       - Very large playlists or history may slow the app
+       - Consider removing old entries
+    
+    3. **Check Activity Monitor**:
+       - Open Activity Monitor
+       - Search for "Izzy" and "Python"
+       - Check CPU and memory usage
+       - If abnormally high, restart the app
+    
+    4. **Disable visual effects**:
+       - Turn off **Liquid Glass Effect** in Settings
+       - Disable **Mini Player** if not needed
+  </Accordion>
+  
+  <Accordion title="High CPU or memory usage">
+    **Cause**: Memory leak, intensive processing, or background tasks.
+    
+    **Solutions**:
+    
+    1. **Check what's running**:
+       - Open Activity Monitor
+       - Look for Izzy and Python processes
+       - Note CPU and memory percentages
+    
+    2. **Restart the app**:
+       - Quit completely
+       - Relaunch Izzy
+    
+    3. **Limit concurrent operations**:
+       - Don't refresh AI recommendations repeatedly
+       - Pause downloads if many are running
+    
+    4. **Report the issue**:
+       - If high usage persists, report on GitHub with:
+         - Activity Monitor screenshot
+         - Console.app logs
+         - What you were doing when it started
+  </Accordion>
+</AccordionGroup>
+
+## Getting additional help
+
+<Card title="Report an issue" icon="github" href="https://github.com/ShubhamPP04/Izzy/issues">
+  If none of these solutions work, please create an issue on GitHub with:
+  
+  - macOS version
+  - Izzy version
+  - Python version (`python3 --version`)
+  - Steps to reproduce the problem
+  - Console.app logs (if applicable)
+  - Screenshots or screen recordings
+</Card>
+
+<Tip>
+  Before reporting an issue, try restarting Izzy and verifying you're using the latest version. Many issues are fixed in updates.
+</Tip>

@@ -1,0 +1,262 @@
+---
+title: How to use Izzy
+description: Learn how to search for music, switch services, create playlists, and use AI-powered features
+---
+
+## Launching Izzy
+
+Izzy offers multiple ways to access the app:
+
+- **Global hotkey**: Press `Option + Space` (customizable) anywhere on your Mac to show or hide Izzy
+- **Menu bar**: Click the Izzy icon in your menu bar to open the app
+- **Applications folder**: Launch Izzy like any other macOS application
+
+## Searching for music
+
+<Steps>
+  <Step title="Open the search tab">
+    Click the magnifying glass icon or press `Cmd + F` to focus the search bar.
+  </Step>
+  
+  <Step title="Type your search query">
+    Enter the name of a song, album, artist, or playlist. Results appear in real-time as you type.
+  </Step>
+  
+  <Step title="Browse results">
+    Search results are organized by category:
+    - **Songs**: Individual tracks ready to play
+    - **Albums**: Full album collections
+    - **Artists**: Artist profiles with their music
+    - **Playlists**: Curated collections
+  </Step>
+  
+  <Step title="Play or add to queue">
+    Click any result to play it immediately, or use the **+** button to add it to your queue.
+  </Step>
+</Steps>
+
+## Switching music services
+
+Izzy supports three music streaming services: YouTube Music, Tidal, and JioSaavn.
+
+<Steps>
+  <Step title="Open settings">
+    Click the gear icon (⚙️) at the bottom of the app or press `Cmd + ,`.
+  </Step>
+  
+  <Step title="Select music source">
+    Under the **Music Source** section at the top, choose your preferred service from the dropdown menu:
+    - **YouTube Music**: Stream millions of songs
+    - **Tidal**: Hi-Res lossless audio up to 24-bit/192kHz FLAC
+    - **JioSaavn**: India's largest music streaming platform
+  </Step>
+  
+  <Step title="Configure quick switch mode">
+    Choose how the provider switch button in the top-left corner works:
+    - **Dropdown Menu**: Click to open a menu and select any provider directly
+    - **Click to Cycle**: Click to cycle through providers one by one
+  </Step>
+</Steps>
+
+<Note>
+  When switching services, your search results and cache will be cleared automatically to ensure fresh content from the new service.
+</Note>
+
+## Creating and managing playlists
+
+<Steps>
+  <Step title="Navigate to playlists">
+    Click the **Playlists** tab in the bottom navigation bar.
+  </Step>
+  
+  <Step title="Create a new playlist">
+    Click the **Create Playlist** button and give your playlist a name.
+  </Step>
+  
+  <Step title="Add songs to your playlist">
+    Browse search results, favorites, or your queue, then click the **+** button on any track to add it to a playlist.
+  </Step>
+  
+  <Step title="Manage your playlist">
+    - **Play**: Click any song in the playlist to start playback
+    - **Reorder**: Drag songs to rearrange them
+    - **Remove**: Click the remove button to delete songs from the playlist
+    - **Delete**: Delete the entire playlist from the playlist menu
+  </Step>
+</Steps>
+
+## Using AI search
+
+Izzy's AI-powered search lets you find music using natural language descriptions.
+
+<Steps>
+  <Step title="Add your Gemini API key">
+    1. Go to **Settings** (⚙️)
+    2. Scroll to the **AI Services** section
+    3. Enter your Gemini API key in the text field
+    4. Get a free API key from [Google AI Studio](https://ai.google.dev/gemini-api/docs/get-started)
+  </Step>
+  
+  <Step title="Enable AI search">
+    Toggle **Show AI Search Tab** to on in the AI Services settings.
+  </Step>
+  
+  <Step title="Use AI search">
+    Click the **AI Search** button (✨) and describe the music you want in natural language.
+    
+    **Examples**:
+    - "upbeat workout music"
+    - "relaxing jazz for study"
+    - "sad songs for rainy days"
+    - "energetic electronic dance music"
+  </Step>
+  
+  <Step title="Browse AI recommendations">
+    Gemini AI will understand your request and suggest songs that match your description based on mood, genre, and style.
+  </Step>
+</Steps>
+
+## Getting AI-powered recommendations
+
+The "For You" section on the Home tab provides personalized music recommendations.
+
+<Steps>
+  <Step title="Set up AI recommendations">
+    Add your Gemini API key in Settings under the **AI Services** section.
+  </Step>
+  
+  <Step title="Build listening history">
+    Play some songs to help the AI understand your music taste. The more you listen, the better the recommendations.
+  </Step>
+  
+  <Step title="View recommendations">
+    Go to the **Home** tab and look for the "For You" section with the AI badge (✨).
+  </Step>
+  
+  <Step title="Refresh for new suggestions">
+    Tap the **refresh button** to get completely new recommendations instantly. Each refresh:
+    - Provides fresh songs you haven't heard before
+    - Filters out already played tracks automatically
+    - Uses parallel API calls for ultra-fast results (2-4 seconds)
+  </Step>
+</Steps>
+
+<Tip>
+  The AI analyzes your recently played songs to suggest similar tracks based on genre, mood, and style. The more you use Izzy, the better the recommendations become.
+</Tip>
+
+## Managing your library
+
+### Favorites
+
+Save your favorite tracks for easy access:
+
+- Click the **heart icon** on any song to add it to your favorites
+- Access all favorites from the **Favorites** tab
+- Remove songs by clicking the heart icon again
+
+### Recently played
+
+Izzy automatically tracks your listening history:
+
+- View all recently played songs in the **Recently Played** tab
+- Songs appear in reverse chronological order (newest first)
+- Your history persists across app launches
+
+### Queue management
+
+Control what plays next with the queue:
+
+- View the current queue from the playback controls
+- Add songs to the queue using the **+** button
+- Reorder songs by dragging them
+- Remove songs from the queue
+- Clear the entire queue with one click
+
+## Downloading songs (Tidal only)
+
+When using Tidal as your music source, you can download songs in high quality.
+
+<Steps>
+  <Step title="Switch to Tidal">
+    Set your music source to **Tidal** in Settings.
+  </Step>
+  
+  <Step title="Find a song to download">
+    Download buttons are available on:
+    - Search results
+    - Favorites
+    - Queue
+    - Playlists
+    - Currently playing song
+  </Step>
+  
+  <Step title="Click the download button">
+    Click the download icon on any song. Izzy will:
+    - Download in the highest quality available (Hi-Res Lossless > Hi-Res > Lossless > High)
+    - Embed album artwork into the file using FFmpeg
+    - Include full metadata (title, artist, album)
+  </Step>
+  
+  <Step title="Find your downloads">
+    Downloaded songs are saved to `~/Downloads/Izzy Music/`. You'll receive a macOS notification when each download completes.
+  </Step>
+</Steps>
+
+<Note>
+  FFmpeg must be installed on your system for album art embedding. Without FFmpeg, songs will still download but won't include embedded artwork.
+</Note>
+
+## Playback controls
+
+### Basic controls
+
+- **Play/Pause**: Click the play button or press `Space`
+- **Next track**: Click the next button or press `→`
+- **Previous track**: Click the previous button or press `←`
+- **Volume**: Click the volume icon and drag the slider, or use `↑` and `↓` keys
+- **Seek**: Click anywhere on the progress bar or drag the playhead
+
+### Mini player
+
+Enable the mini player for a compact, floating interface:
+
+1. Go to **Settings**
+2. Toggle **Mini Player** to on
+3. A draggable, resizable window appears with full playback controls
+4. Features liquid glass design and stays on top of other windows
+
+### Menu bar player
+
+Control music directly from your menu bar:
+
+1. Go to **Settings**
+2. Toggle **Menu Bar Player** to on
+3. Click the Izzy icon in your menu bar to access playback controls and album artwork
+
+## Viewing lyrics
+
+Izzy supports synchronized lyrics for songs:
+
+1. Start playing a song
+2. Click the **lyrics button** in the playback interface
+3. Lyrics will display and scroll automatically with the music
+
+<Note>
+  Lyrics availability depends on the music service and whether the song has synchronized lyrics available.
+</Note>
+
+## Background playback
+
+Izzy continues playing music in the background when you:
+
+- Hide the app window with the global hotkey
+- Switch to other applications
+- Minimize the window
+
+Playback will continue uninterrupted, and you can control it using:
+
+- macOS media keys (play/pause, next, previous)
+- Menu bar player
+- Mini player window
+- Global hotkey to show the main window

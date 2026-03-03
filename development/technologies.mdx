@@ -1,0 +1,434 @@
+---
+title: Technologies
+description: Technology stack and dependencies used in Izzy Music Player
+---
+
+Izzy Music Player is built with a hybrid technology stack combining native macOS technologies with Python-based music service integrations.
+
+## Frontend technologies
+
+### Swift 5.x
+
+The entire frontend is written in Swift, Apple's modern programming language for iOS and macOS development.
+
+**Why Swift:**
+- Native macOS performance
+- Type safety and memory management
+- Modern concurrency with async/await
+- Strong integration with Apple frameworks
+
+### SwiftUI
+
+All UI is built with SwiftUI, Apple's declarative UI framework.
+
+**SwiftUI features used:**
+- `@StateObject` and `@ObservedObject` for state management
+- `@Published` properties for reactive updates
+- Custom view modifiers (liquid glass effect)
+- Animations and transitions
+- macOS-specific components (NSPanel, NSWindow)
+
+```swift
+struct HomeView: View {
+    @ObservedObject var searchState: SearchState
+    
+    var body: some View {
+        ScrollView {
+            // UI code
+        }
+        .background(LiquidGlassModifier())
+    }
+}
+```
+
+### AppKit (Cocoa)
+
+For advanced macOS features not available in SwiftUI:
+
+- **NSPanel** - Floating windows
+- **NSStatusItem** - Menu bar integration
+- **NSWindow** - Window management
+- **Carbon Events** - Global hotkey registration
+
+```swift
+class FloatingPanel: NSPanel {
+    override init(contentRect: NSRect, 
+                  styleMask: NSWindow.StyleMask, 
+                  backing: NSWindow.BackingStoreType, 
+                  defer flag: Bool) {
+        super.init(contentRect: contentRect, 
+                   styleMask: styleMask, 
+                   backing: backing, 
+                   defer: flag)
+        
+        self.level = .floating
+        self.isMovableByWindowBackground = true
+    }
+}
+```
+
+### AVFoundation
+
+Used for audio playback:
+
+- **AVPlayer** - Core audio playback
+- **AVPlayerItem** - Stream URL handling
+- **AVAudioSession** - Audio session management (iOS)
+
+```swift
+private var player: AVPlayer?
+
+func play(url: URL) {
+    let playerItem = AVPlayerItem(url: url)
+    player?.replaceCurrentItem(with: playerItem)
+    player?.play()
+}
+```
+
+### Foundation
+
+Core Swift framework for:
+- `URLSession` - Network requests
+- `Process` - Python process management
+- `Pipe` - Inter-process communication
+- `UserDefaults` - Settings persistence
+- `FileManager` - File system operations
+- `JSONEncoder`/`JSONDecoder` - JSON serialization
+
+### Combine
+
+Used for reactive programming:
+- Publishers and subscribers
+- Debounced search queries
+- State observation
+- Timer-based operations
+
+```swift
+private var cancellables = Set<AnyCancellable>()
+
+NotificationCenter.default
+    .publisher(for: NSApplication.willTerminateNotification)
+    .sink { [weak self] _ in
+        self?.handleAppTermination()
+    }
+    .store(in: &cancellables)
+```
+
+## Backend technologies
+
+### Python 3.x
+
+The backend service is written in Python for easy integration with music APIs.
+
+**Python version:** 3.8+
+
+**Why Python:**
+- Excellent music API libraries (ytmusicapi, yt-dlp)
+- Rapid development and prototyping
+- Rich ecosystem for web APIs
+- Easy JSON handling
+
+### Core Python libraries
+
+#### ytmusicapi (>= 1.7.0)
+
+Unofficial YouTube Music API client.
+
+**Capabilities:**
+- Search songs, albums, artists, playlists
+- Browse home feed and charts
+- Get album/playlist/artist details
+- Watch playlists and radio
+- Mood and genre playlists
+
+**Usage in Izzy:**
+```python
+from ytmusicapi import YTMusic
+
+ytmusic = YTMusic()
+results = ytmusic.search(query="bohemian rhapsody", filter="songs")
+```
+
+**Documentation:** [ytmusicapi.readthedocs.io](https://ytmusicapi.readthedocs.io)
+
+#### yt-dlp (>= 2023.12.30)
+
+Powerful YouTube video/audio downloader and stream extractor.
+
+**Capabilities:**
+- Extract direct stream URLs from YouTube
+- Support for multiple quality levels
+- Format selection (audio-only, video+audio)
+- Metadata extraction
+
+**Usage in Izzy:**
+```python
+from yt_dlp import YoutubeDL
+
+ydl_opts = {
+    'format': 'bestaudio',
+    'quiet': True,
+    'no_warnings': True,
+}
+
+with YoutubeDL(ydl_opts) as ydl:
+    info = ydl.extract_info(f"https://youtube.com/watch?v={video_id}", 
+                            download=False)
+    url = info['url']
+```
+
+**Documentation:** [github.com/yt-dlp/yt-dlp](https://github.com/yt-dlp/yt-dlp)
+
+#### requests (>= 2.31.0)
+
+HTTP library for API requests.
+
+**Usage in Izzy:**
+- JioSaavn API requests (saavn.dev)
+- Tidal API integration
+- Gemini AI API calls
+- Image thumbnail fetching
+
+```python
+import requests
+
+response = requests.get(
+    "https://saavn.dev/api/search/songs",
+    params={"query": query, "limit": limit}
+)
+data = response.json()
+```
+
+#### Built-in Python modules
+
+Standard library modules used:
+
+- **json** - JSON encoding/decoding for IPC
+- **sys** - stdin/stdout communication
+- **asyncio** - Async request handling
+- **logging** - Error logging and debugging
+- **subprocess** - Process management
+- **os** - File system operations
+- **html** - HTML entity decoding
+- **re** - Regular expressions
+- **base64** - Base64 encoding/decoding
+- **time** - Timing and delays
+- **traceback** - Error reporting
+
+## Music service APIs
+
+### YouTube Music
+
+**Integration:** ytmusicapi + yt-dlp  
+**Stream quality:** Best available audio (typically 128-256 kbps AAC)
+
+**Features:**
+- Comprehensive search (songs, albums, artists, playlists)
+- Official music catalog
+- Auto-generated playlists and mixes
+- Personalized recommendations
+- Charts and trending content
+
+### JioSaavn
+
+**Integration:** saavn.dev API  
+**Stream quality:** 320 kbps MP3
+
+**Features:**
+- Indian music catalog
+- Bollywood, regional, and international music
+- Direct stream URLs
+- Album and playlist support
+
+**API Endpoint:** `https://saavn.dev/api/`
+
+### Tidal
+
+**Integration:** Tidal API (unofficial)  
+**Stream quality:** Up to HI_RES_LOSSLESS (24-bit/96kHz FLAC)
+
+**Quality tiers:**
+- `HI_RES_LOSSLESS` - 24-bit FLAC (Master Quality)
+- `HI_RES` - 24-bit FLAC
+- `LOSSLESS` - 16-bit FLAC
+- `HIGH` - 320 kbps AAC
+- `LOW` - 96 kbps AAC
+
+**Features:**
+- Lossless and hi-res audio
+- Quality badges in UI
+- Paginated results for large catalogs
+- Artist discographies
+
+## AI integration
+
+### Google Gemini AI
+
+**Model:** gemini-2.5-flash-lite  
+**Purpose:** AI-powered music search and recommendations
+
+**Capabilities:**
+- Natural language music search
+- Query understanding and expansion
+- Genre and mood detection
+- Artist and song suggestions
+- Contextual insights
+
+**API Endpoint:**
+```
+https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent
+```
+
+**Usage:**
+```python
+import requests
+
+response = requests.post(
+    GEMINI_API_URL_TEMPLATE.format(model="gemini-2.5-flash-lite"),
+    params={"key": api_key},
+    json={
+        "contents": [{
+            "parts": [{
+                "text": f"Find music: {query}"
+            }]
+        }]
+    },
+    timeout=20
+)
+```
+
+**Configuration:** API key stored in UserDefaults (`geminiApiKey`)
+
+## Development tools
+
+### Xcode
+
+**Version:** Xcode 14+  
+**Purpose:** Swift development, UI design, debugging
+
+**Features used:**
+- SwiftUI previews
+- Instruments for performance profiling
+- Breakpoint debugging
+- Memory graph debugger
+
+### Python virtual environment
+
+**Location:** `Resources/music_env/`  
+**Management:** pip
+
+**Setup:**
+```bash
+python3 -m venv music_env
+source music_env/bin/activate
+pip install -r requirements.txt
+```
+
+### Build system
+
+**Build tool:** Xcode Build System  
+**Package manager:** Swift Package Manager (future), pip (Python)
+
+**Build process:**
+1. Compile Swift code
+2. Bundle Python virtual environment
+3. Copy ytmusic_service.py to Resources
+4. Generate app bundle
+5. Code signing
+
+## Inter-process communication
+
+### JSON over pipes
+
+Swift and Python communicate using JSON over stdin/stdout pipes.
+
+**Swift side:**
+```swift
+let inputPipe = Pipe()
+let outputPipe = Pipe()
+
+process.standardInput = inputPipe
+process.standardOutput = outputPipe
+
+// Send request
+let requestData = try JSONEncoder().encode(request)
+inputPipe.fileHandleForWriting.write(requestData)
+
+// Read response
+let responseData = outputPipe.fileHandleForReading.availableData
+let response = try JSONDecoder().decode(ServiceResponse.self, 
+                                       from: responseData)
+```
+
+**Python side:**
+```python
+for line in sys.stdin:
+    request = json.loads(line)
+    response = handle_request(request)
+    print(json.dumps(response), flush=True)
+```
+
+## Platform requirements
+
+### macOS
+
+**Minimum version:** macOS 12.0 (Monterey)  
+**Recommended:** macOS 13.0+ (Ventura or later)
+
+**Required frameworks:**
+- SwiftUI
+- AppKit
+- AVFoundation
+- Foundation
+- Combine
+
+### Python runtime
+
+**Version:** Python 3.8+  
+**Location:** Bundled in app or system Python
+
+**Paths checked (in order):**
+1. `Resources/music_env/bin/python3` (bundled venv)
+2. `Resources/python_runtime/bin/python3` (bundled runtime)
+3. `/usr/bin/python3` (system)
+4. `/opt/homebrew/bin/python3` (Homebrew)
+5. `/usr/local/bin/python3` (Homebrew old)
+
+## Performance optimizations
+
+### Swift optimizations
+
+- **URLCache configuration** - Limited cache size to prevent bloat
+- **Quality of Service** - `.utility` for background tasks
+- **Lazy loading** - Views load content on-demand
+- **Memory management** - Periodic cache clearing
+
+### Python optimizations
+
+**Environment variables:**
+```python
+PYTHONUNBUFFERED=1      # Reduce buffering overhead
+PYTHONDONTWRITEBYTECODE=1  # Disable .pyc generation
+PYTHONOPTIMIZE=1        # Enable Python optimizations
+PYTHONWARNINGS=ignore   # Suppress warnings
+```
+
+**Process settings:**
+- `.utility` QoS for low CPU priority
+- Logging level set to WARNING only
+- Inactivity-based suspension
+
+## Dependency versions
+
+Current dependencies from `requirements.txt`:
+
+```txt
+ytmusicapi>=1.7.0
+yt-dlp>=2023.12.30
+requests>=2.31.0
+```
+
+**Update policy:**
+- Regular updates for security patches
+- Test compatibility before upgrading
+- Pin major versions to prevent breaking changes

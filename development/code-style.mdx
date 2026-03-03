@@ -1,0 +1,550 @@
+---
+title: Code style guidelines
+description: Swift and Python coding conventions for Izzy Music Player
+---
+
+This guide outlines the coding conventions used in Izzy Music Player to maintain consistent, readable, and maintainable code.
+
+## Swift and SwiftUI conventions
+
+### File organization
+
+Organize Swift files with clear MARK comments to separate logical sections:
+
+```swift
+// MARK: - Playback Manager
+
+class PlaybackManager: ObservableObject {
+    // MARK: - Properties
+    
+    @Published var currentTrack: Track?
+    @Published var playbackState: PlaybackState = .stopped
+    
+    // MARK: - Initialization
+    
+    private init() {
+        setupQueueManager()
+        setupRemoteCommandHandlers()
+    }
+    
+    // MARK: - Playback Control
+    
+    func play(track: Track) async {
+        // Implementation
+    }
+    
+    // MARK: - Queue Management
+    
+    func addToQueue(_ track: Track) {
+        // Implementation
+    }
+}
+```
+
+### Naming conventions
+
+**Classes and structs** use PascalCase:
+
+```swift
+class PlaybackManager { }
+struct MusicSearchResults { }
+enum PlaybackState { }
+```
+
+**Variables and functions** use camelCase:
+
+```swift
+var currentTrack: Track?
+func playCurrentTrack() async { }
+let isBuffering = false
+```
+
+**Constants** use camelCase:
+
+```swift
+private let nowPlayingUpdateThrottle: TimeInterval = 2.0
+let maxSearchResults = 50
+```
+
+**Enums** use PascalCase for types and camelCase for cases:
+
+```swift
+enum MusicSource: String, CaseIterable {
+    case youtubeMusic = "youtube_music"
+    case jioSaavn = "jiosaavn"
+    case tidal = "tidal"
+}
+```
+
+### Property declarations
+
+Use explicit types when the type is not obvious from the initializer:
+
+```swift
+// Good
+var currentTime: TimeInterval = 0
+var playbackState: PlaybackState = .stopped
+
+// Acceptable when type is obvious
+var cancellables = Set<AnyCancellable>()
+var isPlaying = false
+```
+
+### Access control
+
+Be explicit about access levels:
+
+```swift
+// Public API
+public class PlaybackManager: ObservableObject {
+    // Published properties for SwiftUI
+    @Published var currentTrack: Track?
+    
+    // Private implementation details
+    private var player: AVPlayer?
+    private var timeObserver: Any?
+    
+    // Internal methods accessible within the module
+    func play(track: Track) async { }
+    
+    // Private helper methods
+    private func setupPlayer() { }
+}
+```
+
+### Async/await usage
+
+Prefer async/await over completion handlers:
+
+```swift
+// Good
+func play(track: Track) async {
+    do {
+        let streamInfo = try await pythonService.getStreamInfo(videoId: track.videoId)
+        setupPlayer(with: streamInfo)
+    } catch {
+        handleError(error)
+    }
+}
+
+// Avoid
+func play(track: Track, completion: @escaping (Result<Void, Error>) -> Void) {
+    pythonService.getStreamInfo(videoId: track.videoId) { result in
+        // Complex nested callbacks
+    }
+}
+```
+
+### SwiftUI view structure
+
+Structure views with clear body composition:
+
+```swift
+struct PlaybackControlsView: View {
+    @ObservedObject var playbackManager: PlaybackManager
+    
+    var body: some View {
+        VStack(spacing: 16) {
+            albumArtwork
+            trackInfo
+            controlButtons
+            progressBar
+        }
+        .padding()
+    }
+    
+    // MARK: - View Components
+    
+    private var albumArtwork: some View {
+        AsyncImage(url: URL(string: track.thumbnailURL ?? "")) { image in
+            image.resizable().aspectRatio(contentMode: .fill)
+        } placeholder: {
+            ProgressView()
+        }
+        .frame(width: 200, height: 200)
+        .cornerRadius(12)
+    }
+    
+    private var trackInfo: some View {
+        VStack(spacing: 4) {
+            Text(track.title)
+                .font(.headline)
+            Text(track.artist)
+                .font(.subheadline)
+                .foregroundColor(.secondary)
+        }
+    }
+    
+    private var controlButtons: some View {
+        HStack(spacing: 24) {
+            Button(action: { Task { await playbackManager.playPrevious() } }) {
+                Image(systemName: "backward.fill")
+            }
+            
+            Button(action: togglePlayback) {
+                Image(systemName: playbackManager.isPlaying ? "pause.fill" : "play.fill")
+            }
+            
+            Button(action: { Task { await playbackManager.playNext() } }) {
+                Image(systemName: "forward.fill")
+            }
+        }
+    }
+    
+    // MARK: - Actions
+    
+    private func togglePlayback() {
+        if playbackManager.isPlaying {
+            playbackManager.pause()
+        } else {
+            playbackManager.resume()
+        }
+    }
+}
+```
+
+### Comments and documentation
+
+Use comments to explain **why**, not **what**. The code should be self-explanatory for what it does.
+
+```swift
+// Good - explains the reasoning
+// 🔋 BATTERY OPTIMIZATION: Reduce time observer frequency from 0.5s to 1.0s
+// This reduces CPU usage by 50% while maintaining smooth UI updates
+let interval = CMTime(seconds: 1.0, preferredTimescale: 600)
+
+// Good - explains battery optimization
+// 🚀 FAST SEEK: Check cache first for instant playback
+if let cached = streamCache.object(forKey: cacheKey), !cached.isExpired {
+    return StreamInfo(url: cached.url, title: cached.title, duration: cached.duration)
+}
+
+// Avoid - states the obvious
+// Create a new player
+let player = AVPlayer()
+```
+
+Use emoji prefixes for important optimization comments:
+
+- 🔋 Battery optimization
+- 🚀 Performance optimization
+- 🎵 Playback-related
+- 💾 Persistence/storage
+- 🔍 Search-related
+
+### Error handling
+
+Handle errors gracefully with user-friendly messages:
+
+```swift
+do {
+    let streamInfo = try await pythonService.getStreamInfo(videoId: track.videoId)
+    setupPlayer(with: streamInfo)
+} catch {
+    let errorMessage = error.localizedDescription
+    print("❌ Playback error: \(errorMessage)")
+    
+    await MainActor.run {
+        self.playbackState = .error(errorMessage)
+        self.isBuffering = false
+    }
+}
+```
+
+### State management
+
+Use `@Published` properties for observable state:
+
+```swift
+class PlaybackManager: ObservableObject {
+    @Published var currentTrack: Track?
+    @Published var playbackState: PlaybackState = .stopped
+    @Published var currentTime: TimeInterval = 0
+    @Published var volume: Float = 0.7 {
+        didSet {
+            player?.volume = volume
+            UserDefaults.standard.set(volume, forKey: "playerVolume")
+        }
+    }
+}
+```
+
+## Python conventions
+
+### File structure
+
+Organize Python files with clear sections:
+
+```python
+#!/usr/bin/env python3
+"""
+🔋 BATTERY OPTIMIZED: YouTube Music Service for Izzy Music Player
+Handles search, stream URL extraction, and YouTube Music API interactions.
+"""
+
+import sys
+import json
+import asyncio
+from typing import Dict, List, Any, Optional
+
+# Configure logging
+logging.basicConfig(
+    level=logging.WARNING,
+    format='%(levelname)s: %(message)s'
+)
+
+# MARK: - Service Classes
+
+class JioSaavnService:
+    """JioSaavn music service integration using saavn.dev API"""
+    
+    def __init__(self):
+        self.base_url = "https://saavn.sumit.co/api"
+```
+
+### Function and method naming
+
+Use snake_case for functions and methods:
+
+```python
+def search_all(query: str, limit: int = 20) -> Dict[str, Any]:
+    """Search across music library"""
+    pass
+
+def get_stream_info(video_id: str) -> Dict[str, Any]:
+    """Get stream info for a video"""
+    pass
+
+def _format_song(song: Dict) -> Optional[Dict]:
+    """Format song result (private helper)"""
+    pass
+```
+
+### Type hints
+
+Always use type hints for function parameters and return types:
+
+```python
+from typing import Dict, List, Any, Optional
+
+def search_all(self, query: str, limit: int = 20) -> Dict[str, Any]:
+    """Search across JioSaavn music library"""
+    try:
+        results: Dict[str, List] = {
+            'songs': [],
+            'albums': [],
+            'artists': []
+        }
+        return {'success': True, 'data': results}
+    except Exception as e:
+        return {'success': False, 'error': str(e)}
+```
+
+### Error handling
+
+Use try-except blocks with specific error messages:
+
+```python
+def get_stream_info(self, video_id: str) -> Dict[str, Any]:
+    """Get stream info using API"""
+    try:
+        if not video_id:
+            return {
+                'success': False,
+                'error': 'Invalid video ID'
+            }
+        
+        response = requests.get(f"{self.base_url}/songs/{video_id}", timeout=10)
+        
+        if response.status_code != 200:
+            return {
+                'success': False,
+                'error': f'Failed to fetch: HTTP {response.status_code}'
+            }
+        
+        return {'success': True, 'data': response.json()}
+        
+    except Exception as e:
+        logger.error(f"Stream extraction failed: {e}")
+        return {'success': False, 'error': str(e)}
+```
+
+### Logging
+
+Use appropriate log levels:
+
+```python
+import logging
+
+logger = logging.getLogger(__name__)
+
+# Error - something went wrong
+logger.error(f"JioSaavn search failed: {e}")
+
+# Warning - unexpected but handled
+logger.warning("No lyrics found for this song")
+
+# Info - useful runtime information (use sparingly for battery efficiency)
+logger.info(f"Retrieved {len(songs)} songs")
+
+# Debug - detailed debugging info (disabled in production)
+logger.debug(f"Processing song: {song_data}")
+
+# Use print with stderr for user-visible messages
+print(f"✅ Successfully imported yt-dlp", file=sys.stderr)
+print(f"❌ Failed to import: {e}", file=sys.stderr)
+```
+
+### Docstrings
+
+Write clear docstrings for classes and public methods:
+
+```python
+class JioSaavnService:
+    """
+    JioSaavn music service integration using saavn.dev API
+    
+    Provides search, streaming, and metadata retrieval for JioSaavn content.
+    """
+    
+    def search_all(self, query: str, limit: int = 20) -> Dict[str, Any]:
+        """
+        Search across JioSaavn music library using saavn.dev API
+        
+        Args:
+            query: Search query string
+            limit: Maximum number of results per category (default: 20)
+            
+        Returns:
+            Dict with 'success' bool and 'data' containing search results,
+            or 'error' message if search failed
+        """
+        pass
+```
+
+### Battery optimization comments
+
+Use emoji prefixes for optimization-related code:
+
+```python
+# 🔋 BATTERY OPTIMIZATION: Configure logging to reduce I/O
+logging.basicConfig(
+    level=logging.WARNING,  # Only log warnings and errors
+    format='%(levelname)s: %(message)s'
+)
+
+# 🚀 FAST SEARCH: Use parallel requests for better performance
+async def search_parallel(queries: List[str]) -> List[Dict]:
+    tasks = [search_song(q) for q in queries]
+    return await asyncio.gather(*tasks)
+```
+
+## Project organization
+
+### Directory structure
+
+Maintain clear separation of concerns:
+
+```
+Izzy/
+├── Views/          # UI components (SwiftUI)
+├── Managers/       # Business logic and state management
+├── Models/         # Data structures and types
+├── Services/       # External API integrations
+└── ytmusic_service.py  # Python backend
+```
+
+### File naming
+
+- Swift files: `PascalCase.swift` (e.g., `PlaybackManager.swift`)
+- View files: `DescriptiveNameView.swift` (e.g., `SearchResultsView.swift`)
+- Model files: Plural for collections (e.g., `MusicModels.swift`)
+- Python files: `snake_case.py` (e.g., `ytmusic_service.py`)
+
+## Version control
+
+### Git ignore patterns
+
+Don't commit:
+
+- Build artifacts (`build/`, `DerivedData/`)
+- Python virtual environments (`venv/`, `music_env/`)
+- User-specific files (`.DS_Store`, `*.xcuserstate`)
+- API keys and secrets (`.env`, `credentials.json`)
+
+### Commit practices
+
+- Make atomic commits (one logical change per commit)
+- Write clear commit messages
+- Don't commit commented-out code
+- Remove debug print statements before committing
+
+## Performance best practices
+
+### Battery efficiency
+
+```swift
+// Reduce observer frequency
+let interval = CMTime(seconds: 1.0, preferredTimescale: 600) // Not 0.5s
+
+// Throttle updates
+private var lastUpdate: TimeInterval = 0
+if currentTime - lastUpdate >= 2.0 {
+    updateUI()
+    lastUpdate = currentTime
+}
+
+// Stop timers when not needed
+if playbackStarted {
+    timer.invalidate()
+    timer = nil
+}
+```
+
+### Memory management
+
+```swift
+// Use weak self in closures to prevent retain cycles
+player.addPeriodicTimeObserver { [weak self] time in
+    guard let self = self else { return }
+    self.currentTime = time.seconds
+}
+
+// Configure cache limits
+let cache = URLCache(
+    memoryCapacity: 50 * 1024 * 1024,  // 50MB
+    diskCapacity: 100 * 1024 * 1024     // 100MB
+)
+```
+
+### Network efficiency
+
+```swift
+// Cache network responses
+private var streamCache = NSCache<NSString, CachedStreamInfo>()
+
+// Prefetch next track
+Task {
+    try await Task.sleep(nanoseconds: 2_000_000_000)
+    _ = try await getStreamInfo(videoId: nextTrack.videoId)
+}
+```
+
+## Testing guidelines
+
+When testing your changes:
+
+1. Test with all three music services (YouTube Music, Tidal, JioSaavn)
+2. Test playback controls (play, pause, seek, next, previous)
+3. Test queue management (add, remove, reorder)
+4. Test persistence (app restart, state restoration)
+5. Monitor console for errors and warnings
+6. Check memory usage in Instruments
+7. Test on different macOS versions if possible
+
+## Resources
+
+- [Swift API Design Guidelines](https://swift.org/documentation/api-design-guidelines/)
+- [SwiftUI Documentation](https://developer.apple.com/documentation/swiftui)
+- [PEP 8 - Python Style Guide](https://pep8.org/)
+- [Python Type Hints](https://docs.python.org/3/library/typing.html)

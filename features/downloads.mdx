@@ -1,0 +1,334 @@
+---
+title: Downloads
+description: Download songs in Hi-Res quality with embedded metadata and album art
+---
+
+Izzy allows you to download songs from Tidal, YouTube Music, and JioSaavn with full metadata and album art embedding.
+
+## Quick start
+
+Download any song with a single click:
+
+1. Find a song in search, favorites, queue, or playlist
+2. Click the **download button** (↓ icon)
+3. Wait for the download to complete (notification appears)
+4. Find your song in `~/Downloads/Izzy Music/`
+
+<Info>
+Downloads are available everywhere in Izzy - search results, favorites, queue, playlists, and more.
+</Info>
+
+## Download location
+
+All downloaded songs are saved to a dedicated folder:
+
+```
+~/Downloads/Izzy Music/
+```
+
+### File naming
+
+Files are automatically named in the format:
+
+```
+Artist Name - Song Title.extension
+```
+
+For example:
+```
+The Beatles - Here Comes the Sun.flac
+Daft Punk - Get Lucky.m4a
+```
+
+### Opening downloads folder
+
+Access your downloads folder:
+
+1. Finder → Go → Downloads
+2. Open the "Izzy Music" folder
+3. Or use the download manager in Izzy to open it directly
+
+<Tip>
+Add the Izzy Music folder to your Finder sidebar for quick access to all downloaded songs.
+</Tip>
+
+## Quality priority (Tidal)
+
+Tidal downloads automatically select the best available quality:
+
+### Priority order
+
+1. **Hi-Res Lossless** - 24-bit/192kHz FLAC (if available)
+2. **Hi-Res** - 24-bit/96kHz FLAC
+3. **Lossless** - 16-bit/44.1kHz FLAC (CD quality)
+4. **High** - 320kbps AAC/M4A
+
+<Tabs>
+  <Tab title="FLAC (Lossless)">
+    **Best quality** - Lossless compression
+    
+    Used for:
+    - Hi-Res Lossless (up to 24-bit/192kHz)
+    - Hi-Res (24-bit/96kHz)
+    - Lossless (16-bit/44.1kHz)
+    
+    File size:
+    - Hi-Res: 100-200 MB per song
+    - Lossless: 30-50 MB per song
+    
+    Benefits:
+    - Bit-perfect audio
+    - No quality loss
+    - Supports high sample rates
+    - Professional archival format
+  </Tab>
+  <Tab title="M4A (Compressed)">
+    **High quality** - AAC compression
+    
+    Used for:
+    - YouTube Music (128-256 kbps AAC)
+    - JioSaavn (128-320 kbps AAC)
+    - Tidal High quality (320 kbps)
+    
+    File size:
+    - Typically 5-15 MB per song
+    
+    Benefits:
+    - Smaller file sizes
+    - Wide device compatibility
+    - Excellent quality-to-size ratio
+    - Faster downloads
+  </Tab>
+</Tabs>
+
+<Note>
+The quality badge shown on each Tidal track indicates what quality will be downloaded. Not all tracks are available in Hi-Res or Lossless.
+</Note>
+
+## Metadata embedding
+
+All downloaded songs include full metadata and album art.
+
+### Embedded information
+
+<CardGroup cols={2}>
+  <Card title="Track metadata" icon="tag">
+    - Song title
+    - Artist name
+    - Album name (uses title if unavailable)
+    - "Downloaded with Izzy" comment
+  </Card>
+  <Card title="Album art" icon="image">
+    - High-resolution cover art
+    - Embedded directly in audio file
+    - Shows in iTunes, Music.app, and other players
+    - Downloaded from original source
+  </Card>
+</CardGroup>
+
+### FFmpeg integration
+
+Metadata embedding is powered by FFmpeg:
+
+- **Automatic detection** - Izzy finds FFmpeg if installed
+- **Search paths** - Checks `/opt/homebrew/bin`, `/usr/local/bin`, `/usr/bin`
+- **Graceful fallback** - Downloads work without FFmpeg (no metadata)
+- **Format support** - Handles FLAC, M4A, MP3, and more
+
+### Installing FFmpeg (optional)
+
+For best results, install FFmpeg via Homebrew:
+
+```bash
+brew install ffmpeg
+```
+
+After installation, Izzy will automatically:
+- Embed album art into downloaded files
+- Add complete track metadata
+- Optimize file format for compatibility
+
+<Warning>
+Without FFmpeg, downloads still work but won't include embedded album art or metadata. The files will be playable but lack tags.
+</Warning>
+
+## Download process
+
+Understanding what happens when you download a song:
+
+### Steps
+
+1. **Stream extraction** - Izzy requests the audio stream URL from the music service
+2. **Quality selection** - Best available quality is chosen automatically
+3. **Download** - Audio file is downloaded to a temporary location
+4. **Album art fetch** - Cover art is downloaded (if available)
+5. **Metadata embedding** - FFmpeg adds tags and cover art to the file
+6. **File move** - Completed file is moved to `~/Downloads/Izzy Music/`
+7. **Notification** - macOS notification confirms completion
+
+### Download states
+
+| State | Description |
+|-------|-------------|
+| **Pending** | Download queued, waiting to start |
+| **Downloading** | Actively downloading audio stream |
+| **Processing** | Embedding metadata and album art |
+| **Completed** | Download finished successfully |
+| **Failed** | Download encountered an error |
+
+### Progress tracking
+
+Monitor download progress in real-time:
+
+- **Progress bar** - Visual indicator of download state
+- **Status text** - Current step (downloading, processing, etc.)
+- **Completion notification** - macOS notification when done
+- **Error handling** - Clear error messages if download fails
+
+## macOS notifications
+
+Get notified when downloads complete.
+
+### Success notification
+
+```
+🎵 Download Complete
+Artist Name - Song Title
+```
+
+### Error notification
+
+```
+❌ Download Failed
+Artist Name - Song Title
+Error: [specific error message]
+```
+
+### Enabling notifications
+
+1. macOS asks for notification permission on first download
+2. Click **"Allow"** to enable notifications
+3. Or go to System Settings → Notifications → Izzy
+
+<Info>
+Notifications include the song title and artist, so you know exactly which download completed.
+</Info>
+
+## Download manager
+
+View and manage active downloads.
+
+### Features
+
+- **Active downloads** - See currently downloading tracks
+- **Progress tracking** - Monitor download percentage
+- **Cancel downloads** - Stop a download in progress
+- **Error retry** - Retry failed downloads
+- **Open folder** - Quick access to downloads directory
+
+### Accessing download manager
+
+The download manager appears when any download is active:
+
+- Shows in a dedicated panel or overlay
+- Updates in real-time as downloads progress
+- Auto-hides when all downloads complete
+
+## Limitations & notes
+
+### Service differences
+
+<Tabs>
+  <Tab title="Tidal">
+    **Best quality available**
+    
+    ✓ Hi-Res Lossless (24-bit/192kHz FLAC)
+    
+    ✓ Lossless (16-bit/44.1kHz FLAC)
+    
+    ✓ High (320kbps AAC)
+    
+    ✓ Quality badges show available quality
+    
+    ✓ Full metadata and album art
+  </Tab>
+  <Tab title="YouTube Music">
+    **High quality compressed**
+    
+    ✓ AAC format (128-256 kbps)
+    
+    ✓ M4A container
+    
+    ✓ Full metadata and album art
+    
+    ✗ No lossless option available
+  </Tab>
+  <Tab title="JioSaavn">
+    **High quality compressed**
+    
+    ✓ AAC format (up to 320 kbps)
+    
+    ✓ M4A container
+    
+    ✓ Full metadata and album art
+    
+    ✗ No lossless option available
+  </Tab>
+</Tabs>
+
+### DRM considerations
+
+- **Izzy downloads DRM-free streams** - No copy protection
+- **Legal** - Downloads are for personal use only
+- **Quality** - Limited to what the service provides via their API
+- **Compatibility** - Files work in any music player
+
+### File sizes
+
+Typical download sizes:
+
+| Quality | Format | Size (per song) |
+|---------|--------|----------------|
+| Hi-Res Lossless | FLAC | 100-200 MB |
+| Lossless | FLAC | 30-50 MB |
+| High (AAC 320) | M4A | 10-15 MB |
+| High (AAC 256) | M4A | 8-12 MB |
+| Standard | M4A | 5-8 MB |
+
+<Warning>
+Hi-Res downloads can be large (100+ MB per song). Ensure you have sufficient disk space before downloading albums or playlists.
+</Warning>
+
+## Troubleshooting
+
+### Download fails immediately
+
+1. **Check internet connection** - Ensure stable connectivity
+2. **Verify music service** - Make sure the service is accessible
+3. **Check Console.app** - Look for specific error messages
+4. **Retry download** - Temporary service issues may resolve
+
+### No metadata or album art
+
+1. **Install FFmpeg** - Run `brew install ffmpeg`
+2. **Verify FFmpeg path** - Check `/opt/homebrew/bin/ffmpeg` exists
+3. **Restart Izzy** - Reload after installing FFmpeg
+4. **Re-download** - Try downloading the song again
+
+### Download stuck at "Processing"
+
+1. **Wait** - FFmpeg processing can take 10-30 seconds for Hi-Res files
+2. **Check FFmpeg** - Verify FFmpeg is installed and working
+3. **Cancel and retry** - Use the download manager to cancel and restart
+4. **Check disk space** - Ensure sufficient space for temp files
+
+### Files not appearing in folder
+
+1. **Check folder location** - Verify `~/Downloads/Izzy Music/` exists
+2. **Wait for completion** - Notification confirms when file is ready
+3. **Check download status** - Look at download manager for errors
+4. **File permissions** - Ensure Izzy has write access to Downloads folder
+
+<Tip>
+If downloads consistently fail, check Console.app for detailed error logs. Filter for "Izzy" to see download-related messages.
+</Tip>

@@ -1,0 +1,275 @@
+---
+title: Core features
+description: Global hotkey, floating window, menu bar integration, smart search, and more
+---
+
+Izzy provides a comprehensive set of features designed for quick access and efficient music control on macOS.
+
+## Global hotkey
+
+Quick access to Izzy from anywhere on your Mac with a customizable keyboard shortcut.
+
+### Default shortcut
+
+Press **Option + Space** anywhere on your Mac to show or hide Izzy.
+
+### Customization
+
+You can customize the hotkey modifier in Settings:
+
+<Tabs>
+  <Tab title="Option (⌥)">
+    **Option + Space** (Default)
+    
+    The least likely to conflict with other apps.
+  </Tab>
+  <Tab title="Command (⌘)">
+    **Command + Space**
+    
+    Note: This may conflict with Spotlight search.
+  </Tab>
+  <Tab title="Control (⌃)">
+    **Control + Space**
+    
+    Alternative if Option key is used elsewhere.
+  </Tab>
+</Tabs>
+
+### How to change
+
+1. Open **Settings** (⚙️ icon)
+2. Scroll to **Global Hotkey**
+3. Select your preferred modifier (Option, Command, or Control)
+4. The hotkey updates immediately
+
+<Info>
+The space bar is always used as the trigger key. Only the modifier key (Option/Command/Control) can be customized.
+</Info>
+
+## Floating window
+
+Keep Izzy visible above all other windows for constant music control.
+
+### Always-on-top interface
+
+- Window stays above all other applications
+- Perfect for monitoring current track while working
+- Quick access to playback controls
+- Draggable to any position on screen
+
+### Use cases
+
+- **Multitasking** - Control music while working in other apps
+- **Quick access** - Change tracks without switching windows
+- **Visual feedback** - See album art and track info at all times
+
+<Tip>
+Combine the floating window with the global hotkey for the ultimate music control experience. Press Option + Space to show/hide as needed.
+</Tip>
+
+## Menu bar integration
+
+Beautiful, redesigned menu bar player with album artwork and quick controls.
+
+### Features
+
+- **Album artwork display** - High-quality album art in the menu bar
+- **Track information** - Song title and artist at a glance
+- **Quick controls** - Play, pause, skip without opening the main window
+- **Now playing status** - See what's playing from anywhere
+
+### Customization
+
+1. Open **Settings**
+2. Find **Menu Bar Player** toggle
+3. Turn on or off as needed
+4. Restart Izzy if the player doesn't appear
+
+<Note>
+The menu bar player shows the currently playing track. Click it for quick access to playback controls.
+</Note>
+
+## Smart search
+
+Real-time search with intelligent suggestions across all music services.
+
+### Search capabilities
+
+<CardGroup cols={2}>
+  <Card title="Songs" icon="music">
+    Find individual tracks by title, artist, or lyrics
+  </Card>
+  <Card title="Albums" icon="album">
+    Browse complete albums and discographies
+  </Card>
+  <Card title="Artists" icon="user">
+    Explore artist pages and catalogs
+  </Card>
+  <Card title="Playlists" icon="list">
+    Discover curated playlists and collections
+  </Card>
+</CardGroup>
+
+### Search features
+
+- **Real-time results** - See suggestions as you type
+- **Multi-category** - Results grouped by songs, albums, artists, and playlists
+- **Service-specific** - Search within the currently selected music service
+- **Keyboard navigation** - Use arrow keys and Enter to navigate results
+
+### Keyboard shortcut
+
+Press **Cmd + F** to focus the search bar from anywhere in the app.
+
+## Playlists
+
+Create and manage custom playlists with songs from any music service.
+
+### Creating playlists
+
+1. Navigate to **Library** > **Playlists**
+2. Click **"Create Playlist"**
+3. Give your playlist a name
+4. Start adding songs
+
+### Adding songs
+
+Add songs to playlists from multiple locations:
+
+- Search results - Click the **+** button on any track
+- Now playing - Add the current track
+- Favorites - Add favorite tracks to playlists
+- Queue - Save queued tracks to a playlist
+
+### Playlist features
+
+- **Cross-service support** - Mix songs from YouTube Music, Tidal, and JioSaavn
+- **Drag and drop** - Reorder songs within playlists
+- **Cover art** - Automatic playlist cover from the first track
+- **Persistent storage** - Playlists saved locally on your Mac
+
+<Info>
+Each song in a playlist remembers which music service it came from, so you can mix tracks from different services seamlessly.
+</Info>
+
+## Favorites
+
+Save your favorite tracks for easy access across all sessions.
+
+### Adding favorites
+
+Click the heart icon (♥) on any song to add it to your favorites:
+
+- Search results
+- Queue view
+- Now playing controls
+- Playlist tracks
+- Recently played
+
+### Favorites library
+
+- Access from **Library** > **Favorites**
+- Sorted by date added (newest first)
+- Quick play and queue options
+- Add to playlists
+- Download functionality
+
+### Persistence
+
+Favorites are stored locally on your Mac at:
+```
+~/Library/Containers/com.superman.Izzy/Data/Library/Application Support/
+```
+
+<Tip>
+Favorites include quality badges for Tidal tracks, so you can see at a glance which songs are Hi-Res or Lossless.
+</Tip>
+
+## Recently played
+
+Track your music listening history automatically.
+
+### Features
+
+- **Automatic tracking** - No manual intervention required
+- **Complete history** - All played tracks recorded
+- **Quick replay** - Click any track to play again
+- **Add to favorites** - Save frequently played tracks
+- **Playlist creation** - Build playlists from your history
+
+### Accessing history
+
+1. Navigate to **Library** > **Recently Played**
+2. Browse your listening history
+3. Click any track to play again
+4. Use the heart icon to add to favorites
+
+## Media key integration
+
+Control playback using your Mac's built-in media keys.
+
+### Supported keys
+
+- **Play/Pause** - F8 or dedicated media key
+- **Next track** - F9 or dedicated media key
+- **Previous track** - F7 or dedicated media key
+
+### Native macOS integration
+
+Izzy integrates with macOS Now Playing, which means:
+
+- Media keys work system-wide
+- Lock screen controls available
+- Control Center integration
+- Touch Bar support (on supported Macs)
+
+<Note>
+Media key support works automatically - no configuration needed. Izzy respects macOS's media key priority system.
+</Note>
+
+## Persistent state
+
+Resume playback exactly where you left off.
+
+### What's saved
+
+- **Current track** - The song you were listening to
+- **Playback position** - Exact timestamp in the track
+- **Queue** - Your full playback queue
+- **Queue position** - Which song in the queue is current
+- **Shuffle state** - Whether shuffle is enabled
+- **Repeat mode** - None, single, or all
+- **Volume level** - Your preferred volume setting
+
+### Auto-resume
+
+When you relaunch Izzy:
+
+1. The last track loads automatically
+2. Playback position restores to the exact second
+3. Queue and settings restore
+4. Playback can optionally resume (if it was playing when you quit)
+
+<Tip>
+Persistent state works across app quits, restarts, and even system reboots. Your music session is always preserved.
+</Tip>
+
+## Background playback
+
+Music continues playing even when Izzy is in the background.
+
+### Features
+
+- **True background playback** - No interruption when switching apps
+- **System integration** - Works with macOS power management
+- **Efficient** - Minimal CPU and battery usage
+- **Reliable** - Continues through system sleep/wake cycles
+
+### Energy efficiency
+
+Izzy is optimized for battery efficiency:
+
+- Smart caching reduces network usage
+- Minimal UI updates when in background
+- Efficient audio processing
+- Low memory footprint

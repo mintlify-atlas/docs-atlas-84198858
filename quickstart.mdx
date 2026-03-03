@@ -1,80 +1,278 @@
 ---
-title: "Quickstart"
-description: "Start building awesome documentation in minutes"
+title: Quick start
+description: Get up and running with Izzy Music Player in under 5 minutes
 ---
 
-## Get started in three steps
+## Launch the app
 
-Get your documentation site running locally and make your first customization.
+There are three ways to open Izzy Music Player:
 
-### Step 1: Set up your local environment
-
-<AccordionGroup>
-  <Accordion icon="copy" title="Clone your docs locally">
-    During the onboarding process, you created a GitHub repository with your docs content if you didn't already have one. You can find a link to this repository in your [dashboard](https://dashboard.mintlify.com).
-    
-    To clone the repository locally so that you can make and preview changes to your docs, follow the [Cloning a repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) guide in the GitHub docs.
-  </Accordion>
-  <Accordion icon="rectangle-terminal" title="Start the preview server">
-    1. Install the Mintlify CLI: `npm i -g mint`
-    2. Navigate to your docs directory and run: `mint dev`
-    3. Open `http://localhost:3000` to see your docs live!
-    
-    <Tip>Your preview updates automatically as you edit files.</Tip>
-  </Accordion>
-</AccordionGroup>
-
-### Step 2: Deploy your changes
-
-<AccordionGroup>
-  <Accordion icon="github" title="Install our GitHub app">
-    Install the Mintlify GitHub app from your [dashboard](https://dashboard.mintlify.com/settings/organization/github-app).
-    
-    Our GitHub app automatically deploys your changes to your docs site, so you don't need to manage deployments yourself.
-</Accordion>
-<Accordion icon="palette" title="Update your site name and colors">
-    For a first change, let's update the name and colors of your docs site.
-
-    1. Open `docs.json` in your editor.
-    2. Change the `"name"` field to your project name.
-    3. Update the `"colors"` to match your brand.
-    4. Save and see your changes instantly at `http://localhost:3000`.
-
-    <Tip>Try changing the primary color to see an immediate difference!</Tip>
-  </Accordion>
-</AccordionGroup>
-
-### Step 3: Go live
-
-<Accordion icon="rocket" title="Publish your docs">
-  1. Commit and push your changes.
-  2. Your docs will update and be live in moments!
-</Accordion>
-
-## Next steps
-
-Now that you have your docs running, explore these key features:
-
-<CardGroup cols={2}>
-
-<Card title="Write Content" icon="pen-to-square" href="/essentials/markdown">
-  Learn MDX syntax and start writing your documentation.
-</Card>
-
-<Card title="Customize style" icon="palette" href="/essentials/settings">
-  Make your docs match your brand perfectly.
-</Card>
-
-<Card title="Add code examples" icon="square-code" href="/essentials/code">
-  Include syntax-highlighted code blocks.
-</Card>
-
-<Card title="API documentation" icon="code" href="/api-reference/introduction">
-  Auto-generate API docs from OpenAPI specs.
-</Card>
-
+<CardGroup cols={3}>
+  <Card title="Applications folder" icon="folder">
+    Open Finder, go to Applications, and double-click Izzy
+  </Card>
+  <Card title="Spotlight search" icon="magnifying-glass">
+    Press `Cmd + Space`, type "Izzy", and press Enter
+  </Card>
+  <Card title="Global hotkey" icon="keyboard">
+    Press `Option + Space` from anywhere (after first launch)
+  </Card>
 </CardGroup>
 
+<Tip>
+  The global hotkey `Option + Space` is the fastest way to access Izzy. It works from any application and toggles the window open or closed.
+</Tip>
+
+## Choose your music service
+
+Izzy supports three streaming platforms. Select your preferred service:
+
+<Steps>
+  <Step title="Open settings">
+    Click the Settings icon (⚙️) in the bottom corner of the Izzy window.
+  </Step>
+  
+  <Step title="Select a service">
+    At the top of the settings panel, choose from:
+    - **YouTube Music** - Millions of songs from YouTube's catalog
+    - **Tidal** - Hi-Res lossless audio (up to 24-bit/192kHz FLAC)
+    - **JioSaavn** - India's largest music streaming platform
+  </Step>
+  
+  <Step title="Start streaming">
+    The service switches immediately. Close settings and start searching for music.
+  </Step>
+</Steps>
+
+<Info>
+  You can switch between services at any time. Your queue and favorites are preserved per service.
+</Info>
+
+## Search for music
+
+Finding music in Izzy is fast and intuitive:
+
+<Steps>
+  <Step title="Focus the search bar">
+    Click the search bar at the top of the window or press `Cmd + F` to focus it.
+  </Step>
+  
+  <Step title="Type your query">
+    Enter a song name, artist, album, or playlist. Search results appear in real-time as you type.
+    
+    Examples:
+    - "Bohemian Rhapsody"
+    - "Taylor Swift"
+    - "Dark Side of the Moon"
+  </Step>
+  
+  <Step title="Browse results">
+    Results are organized by category: Songs, Artists, Albums, and Playlists. Scroll through to find what you want.
+  </Step>
+  
+  <Step title="Play or queue">
+    Click a song to play it immediately, or click the **+** button to add it to your queue.
+  </Step>
+</Steps>
+
+### Use AI-powered search
+
+For natural language queries, try AI search:
+
+1. Click the **AI Search** button (✨) in the search bar
+2. Describe the music you want in plain English:
+   - "upbeat workout music"
+   - "relaxing jazz for studying"
+   - "90s hip hop classics"
+3. Gemini AI will find songs matching your description
+
 <Note>
-  **Need help?** See our [full documentation](https://mintlify.com/docs) or join our [community](https://mintlify.com/community).
+  AI search requires a Gemini API key. Get one free from [Google AI Studio](https://ai.google.dev/gemini-api/docs/get-started) and add it in Settings.
 </Note>
+
+## Play your first song
+
+Once you've found a song, playing it is simple:
+
+<Steps>
+  <Step title="Select a song">
+    Click on any song from your search results, a playlist, or the "For You" recommendations.
+  </Step>
+  
+  <Step title="Playback begins">
+    The song starts playing immediately. Album artwork appears in the player, and the track is added to your queue.
+  </Step>
+  
+  <Step title="Use playback controls">
+    Control playback with the centered control buttons:
+    - **Play/Pause** - Toggle playback
+    - **Previous** - Go to the previous track
+    - **Next** - Skip to the next track
+    - **Seek bar** - Click or drag to jump to any position in the track
+  </Step>
+</Steps>
+
+### Keyboard shortcuts for playback
+
+| Shortcut | Action |
+|----------|--------|
+| `Space` | Play/Pause |
+| `→` | Next track |
+| `←` | Previous track |
+| `↑` / `↓` | Volume up/down |
+
+<Tip>
+  Media keys on your keyboard (play, pause, next, previous) work natively with Izzy.
+</Tip>
+
+## Manage your queue
+
+The queue shows what's playing next and gives you full control:
+
+<Steps>
+  <Step title="Open the queue">
+    Click the **Queue** tab in the sidebar to view all queued tracks.
+  </Step>
+  
+  <Step title="Add songs to queue">
+    Click the **+** button on any song to add it to the end of your queue.
+  </Step>
+  
+  <Step title="Reorder tracks">
+    Drag and drop songs to rearrange the queue order.
+  </Step>
+  
+  <Step title="Remove tracks">
+    Click the **×** button on any song to remove it from the queue.
+  </Step>
+</Steps>
+
+## Use the menu bar player
+
+Izzy integrates beautifully with the macOS menu bar:
+
+1. Look for the Izzy icon in your menu bar (top-right corner of your screen)
+2. Click it to see the current track with album artwork
+3. Control playback directly from the menu bar without opening the main window
+4. Toggle menu bar player on/off in Settings if desired
+
+<Info>
+  The menu bar player shows the currently playing song and provides quick playback controls. It's perfect for checking what's playing without interrupting your workflow.
+</Info>
+
+## Access AI recommendations
+
+Get personalized music suggestions based on your listening history:
+
+<Steps>
+  <Step title="Add Gemini API key">
+    Go to Settings and add your Gemini API key. Get one free from [Google AI Studio](https://ai.google.dev/gemini-api/docs/get-started).
+  </Step>
+  
+  <Step title="Navigate to Home tab">
+    Click the **Home** tab in the sidebar to see the "For You" section with the AI badge (✨).
+  </Step>
+  
+  <Step title="Explore recommendations">
+    The AI analyzes your recently played songs and suggests similar tracks based on genre, mood, and style.
+  </Step>
+  
+  <Step title="Refresh for new suggestions">
+    Click the **refresh button** to get completely new recommendations. Each refresh provides fresh songs you haven't heard before.
+  </Step>
+</Steps>
+
+<Tip>
+  Play a few songs first to build your listening history. The more you listen, the better the AI recommendations become.
+</Tip>
+
+## Save your favorites
+
+Mark songs you love for quick access later:
+
+1. Click the **heart icon** (♥) on any song to add it to your favorites
+2. Navigate to **Library** > **Favorites** to see all your saved tracks
+3. Click the heart again to remove a song from favorites
+
+Favorites are saved per music service, so your YouTube Music favorites are separate from your Tidal favorites.
+
+## Create a playlist
+
+Organize your music into custom playlists:
+
+<Steps>
+  <Step title="Navigate to playlists">
+    Go to **Library** > **Playlists** in the sidebar.
+  </Step>
+  
+  <Step title="Create a new playlist">
+    Click the **"Create Playlist"** button.
+  </Step>
+  
+  <Step title="Name your playlist">
+    Enter a name for your playlist and confirm.
+  </Step>
+  
+  <Step title="Add songs">
+    Click the **+** button on any track throughout the app to add it to your playlists.
+  </Step>
+</Steps>
+
+## Download songs (Tidal only)
+
+If you're using Tidal, you can download songs in Hi-Res quality:
+
+1. Find a song you want to download (search results, favorites, queue, etc.)
+2. Click the **download button** on the track
+3. Songs are downloaded with embedded album art and metadata
+4. Find downloaded files in `~/Downloads/Izzy Music/`
+5. Receive a macOS notification when the download completes
+
+<Note>
+  Downloads prioritize the highest quality available: Hi-Res Lossless > Hi-Res > Lossless > High quality.
+</Note>
+
+## Master the global hotkey
+
+The `Option + Space` hotkey is your fastest friend:
+
+- **From any app**: Press `Option + Space` to instantly open Izzy
+- **Izzy is open**: Press `Option + Space` to hide it
+- **Customize it**: Change the hotkey in Settings > Keyboard
+
+This floating window experience means Izzy is always just a keystroke away, perfect for controlling music while you work.
+
+## What's next?
+
+Now that you know the basics, explore more features:
+
+<CardGroup cols={2}>
+  <Card
+    title="Explore all features"
+    icon="stars"
+    href="/features/core-features"
+  >
+    Discover advanced capabilities like lyrics, mini player, and more
+  </Card>
+  <Card
+    title="Learn keyboard shortcuts"
+    icon="keyboard"
+    href="/guide/keyboard-shortcuts"
+  >
+    Master all keyboard shortcuts for maximum efficiency
+  </Card>
+  <Card
+    title="Troubleshooting"
+    icon="wrench"
+    href="/guide/troubleshooting"
+  >
+    Fix common issues and optimize your experience
+  </Card>
+  <Card
+    title="Settings reference"
+    icon="gear"
+    href="/guide/settings"
+  >
+    Customize Izzy to match your preferences
+  </Card>
+</CardGroup>

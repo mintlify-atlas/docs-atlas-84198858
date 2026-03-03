@@ -1,0 +1,251 @@
+---
+title: Settings and configuration
+description: Customize Izzy with these configuration options to personalize your music experience
+---
+
+Access settings by clicking the gear icon (⚙️) at the bottom of the app or by pressing `Cmd + ,`.
+
+## Music source
+
+Choose your preferred music streaming service.
+
+| Setting | Options | Default |
+|---------|---------|--------|
+| **Music Source** | YouTube Music, Tidal, JioSaavn | YouTube Music |
+| **Quick Switch Mode** | Dropdown Menu, Click to Cycle | Dropdown Menu |
+
+**Music Source** determines which streaming service Izzy uses to search for and play music:
+
+- **YouTube Music**: Stream millions of songs from YouTube's music catalog
+- **Tidal**: Hi-Res lossless audio up to 24-bit/192kHz FLAC with quality badges
+- **JioSaavn**: India's largest music streaming platform
+
+**Quick Switch Mode** controls how the provider switch button (top-left corner) works:
+
+- **Dropdown Menu**: Click to open a menu and select any provider directly
+- **Click to Cycle**: Click to cycle through providers one by one
+
+<Note>
+  When you change music sources, Izzy automatically clears the search cache to ensure fresh results from the new service.
+</Note>
+
+## General settings
+
+### Launch at login
+
+Automatically start Izzy when you log in to your Mac.
+
+| Setting | Type | Default |
+|---------|------|--------|
+| **Launch at Login** | Toggle | Off |
+
+<Tip>
+  Enable this if you use Izzy frequently. The app will start in the background and can be accessed instantly with the global hotkey.
+</Tip>
+
+### Startup tab
+
+Choose which tab opens when you launch Izzy.
+
+| Setting | Options | Default |
+|---------|---------|--------|
+| **Startup Tab** | Home, Search, Favorites, Recently Played, Playlists, Settings | Search |
+
+## Interface settings
+
+### Global hotkey
+
+Customize the keyboard shortcut to show or hide Izzy.
+
+| Setting | Options | Default |
+|---------|---------|--------|
+| **Hotkey Modifier** | Option, Control, Command, Shift + Option | Option |
+
+**Available modifiers**:
+
+- **Option (⌥)**: Recommended default, rarely conflicts with other apps
+- **Control (⌃)**: Alternative modifier key
+- **Command (⌘)**: May conflict with Spotlight (Command + Space)
+- **Shift + Option (⇧⌥)**: Two-key combination for extra safety
+
+<Warning>
+  If you choose **Command**, you may need to change Spotlight's shortcuts in **System Settings** > **Keyboard** > **Keyboard Shortcuts** to avoid conflicts.
+</Warning>
+
+### Menu bar player
+
+Show a compact music player in the macOS menu bar.
+
+| Setting | Type | Default |
+|---------|------|--------|
+| **Menu Bar Player** | Toggle | On |
+
+When enabled, a menu bar icon displays:
+
+- Album artwork thumbnail
+- Click to reveal playback controls
+- Song information
+- Quick access to show/hide main window
+
+### Mini player
+
+Show a floating, resizable mini player window.
+
+| Setting | Type | Default |
+|---------|------|--------|
+| **Mini Player** | Toggle | Off |
+
+**Features**:
+
+- Draggable and resizable window
+- Liquid glass design
+- Always stays on top of other windows
+- Full playback controls
+- Album artwork display
+
+### Liquid glass effect
+
+Transform the app with a stunning liquid glass aesthetic.
+
+| Setting | Type | Default |
+|---------|------|--------|
+| **Liquid Glass Effect** | Toggle | Off |
+
+**What it does**:
+
+- Full transparency throughout the app
+- Enhanced dark mode
+- Modern glassmorphism visual style
+- Blur effects on backgrounds
+
+### Your name
+
+Personalize the home screen greeting.
+
+| Setting | Type | Default |
+|---------|------|--------|
+| **Your Name** | Text field | "User" |
+
+This name appears on the home screen welcome message.
+
+### Window position
+
+Control where the Izzy window appears on your screen.
+
+| Setting | Action | Description |
+|---------|--------|-------------|
+| **Center Window** | Button | Centers the window on your screen |
+
+**How it works**:
+
+- Drag the handle at the top of the window to reposition it
+- Izzy remembers the position between sessions
+- Click **Center Window** to reset to the center of your screen
+
+## AI services
+
+Enable AI-powered search and recommendations with Google Gemini.
+
+| Setting | Type | Default |
+|---------|------|--------|
+| **Show AI Search Tab** | Toggle | On |
+| **Gemini API Key** | Secure text field | Empty |
+
+**Gemini API Key** enables:
+
+- **AI Search**: Find music using natural language ("upbeat workout music")
+- **For You recommendations**: Personalized song suggestions based on listening history
+- **Smart suggestions**: AI analyzes your taste to recommend new music
+
+<Steps>
+  <Step title="Get a free API key">
+    Visit [Google AI Studio](https://ai.google.dev/gemini-api/docs/get-started) to get your free Gemini API key.
+  </Step>
+  
+  <Step title="Add the key to Izzy">
+    Paste your API key into the **Gemini API Key** field in Settings.
+  </Step>
+  
+  <Step title="Verify it's saved">
+    You'll see a green checkmark with "Key saved" when the key is successfully stored.
+  </Step>
+</Steps>
+
+<Tip>
+  Use the **Show Key** / **Hide Key** button to toggle visibility of your API key for verification.
+</Tip>
+
+## Playback settings
+
+### Playback controls layout
+
+Customize how playback controls are displayed.
+
+| Setting | Type | Default |
+|---------|------|--------|
+| **Center Playback Buttons** | Toggle | Off |
+| **Minimal Playback Player** | Toggle | Off |
+
+**Center Playback Buttons**: When enabled, Previous, Play/Pause, and Next buttons are centered. When disabled, they're left-aligned.
+
+**Minimal Playback Player**: When enabled, the playback player uses a more elegant and compact design with:
+
+- Refined horizontal layout
+- Subtle visual elements
+- Integrated controls
+- Cleaner appearance
+
+## Updates
+
+Manage how Izzy handles app updates.
+
+| Setting | Type | Default |
+|---------|------|--------|
+| **Automatic Updates** | Toggle | On |
+| **Check for Updates** | Button | - |
+
+**Automatic Updates**: When enabled, Izzy automatically checks for and notifies you about new versions.
+
+**Check for Updates**: Manually check for the latest version at any time.
+
+<Info>
+  Update checks may fail for development builds if the update server is not configured. This is normal for non-release versions.
+</Info>
+
+## Library stats
+
+The Settings screen displays quick stats about your music library:
+
+### Favorites
+
+- Shows total count of favorited songs
+- Displays thumbnails and titles of your most recent 3 favorites
+- Indicates if you haven't favorited any songs yet
+
+### Recently played
+
+- Shows total count of recently played songs
+- Displays thumbnails and titles of your most recent 3 plays
+- Indicates if you haven't played any songs yet
+
+## Debug options
+
+<Warning>
+  Debug options are intended for testing and development. Use with caution.
+</Warning>
+
+| Setting | Action | Purpose |
+|---------|--------|--------|
+| **Reset First Launch Flag** | Button | Resets the app to treat the next launch as a first-time launch |
+
+This is useful for testing the startup tab functionality.
+
+## Settings storage location
+
+All settings are stored in your user library:
+
+```
+~/Library/Containers/com.superman.Izzy/Data/Library/Application Support/
+```
+
+Settings persist across app launches and updates.

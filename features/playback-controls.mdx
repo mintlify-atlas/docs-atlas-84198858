@@ -1,0 +1,289 @@
+---
+title: Playback controls
+description: Full playback control with seeking, volume adjustment, and queue management
+---
+
+Izzy provides comprehensive playback controls with a beautifully balanced interface and advanced features like instant seeking and queue management.
+
+## Playback buttons
+
+Full control over your music with an elegantly centered layout.
+
+### Main controls
+
+<CardGroup cols={3}>
+  <Card title="Play/Pause" icon="play">
+    Toggle playback with a single click or spacebar
+  </Card>
+  <Card title="Previous" icon="backward">
+    Jump to the previous track or restart current track
+  </Card>
+  <Card title="Next" icon="forward">
+    Skip to the next track in queue
+  </Card>
+</CardGroup>
+
+### Centered playback layout
+
+The playback controls feature perfectly centered buttons with balanced spacing:
+
+- **Visual balance** - Controls are aesthetically centered in the interface
+- **Easy access** - Large, clickable buttons
+- **Smooth animations** - Polished transitions between states
+- **State indicators** - Clear visual feedback for play/pause state
+
+### Keyboard shortcuts
+
+| Key | Action |
+|-----|--------|
+| `Space` | Play/Pause |
+| `→` | Next track |
+| `←` | Previous track |
+| `↑` | Volume up |
+| `↓` | Volume down |
+
+<Tip>
+Press the left arrow key within the first 3 seconds of a track to go to the previous track. After 3 seconds, it restarts the current track.
+</Tip>
+
+## Seeking
+
+Click or drag to seek through tracks with instant response.
+
+### Seek methods
+
+<Tabs>
+  <Tab title="Click to seek">
+    Click anywhere on the progress bar to jump to that position instantly.
+    
+    - No lag or buffering
+    - Instant playback at new position
+    - Visual feedback on hover
+  </Tab>
+  <Tab title="Drag to seek">
+    Drag the playback indicator to scrub through the track.
+    
+    - Smooth dragging motion
+    - Real-time position updates
+    - Preview timestamp while dragging
+  </Tab>
+</Tabs>
+
+### Fast seek optimization
+
+Izzy uses advanced caching for instant seeking:
+
+- **Stream caching** - Audio streams are cached for up to 1 hour
+- **No re-buffering** - Seeking doesn't require re-downloading
+- **Instant response** - Playback starts immediately at new position
+- **Smart prefetching** - Next track loads in background
+
+### Progress display
+
+```
+1:23 ━━━━━━━━●━━━━━━━━━━━━━━━ 3:45
+```
+
+- **Current time** - Shows elapsed time (1:23)
+- **Progress bar** - Visual representation of playback position
+- **Total duration** - Track length (3:45)
+- **Hover indicator** - Shows timestamp when hovering
+
+<Info>
+The progress bar updates in real-time as the track plays, with smooth animation and accurate timing.
+</Info>
+
+## Volume control
+
+Fine-grained volume adjustment with visual feedback.
+
+### Volume slider
+
+- **Range** - 0% to 100%
+- **Hover indicator** - Shows current volume level
+- **Smooth adjustment** - No clicking or popping
+- **Persistent** - Volume level saved across sessions
+
+### Volume features
+
+- **Visual feedback** - Volume icon changes based on level
+- **Percentage display** - Exact volume shown on hover
+- **Keyboard control** - Use ↑/↓ arrow keys for adjustment
+- **Immediate effect** - No delay when changing volume
+
+### Default volume
+
+Izzy starts at 70% volume by default. Your last used volume is saved and restored on next launch.
+
+<Note>
+Volume is controlled independently from system volume, giving you precise control over music playback without affecting other apps.
+</Note>
+
+## Queue management
+
+Full control over your playback queue with advanced features.
+
+### Queue view
+
+Access the queue by clicking the queue button in playback controls:
+
+- **Current track** - Highlighted and playing
+- **Upcoming tracks** - Next songs in order
+- **Drag to reorder** - Rearrange queue by dragging
+- **Remove tracks** - Swipe or click X to remove
+- **Clear queue** - Remove all tracks at once
+
+### Queue features
+
+<CardGroup cols={2}>
+  <Card title="Add to queue" icon="plus">
+    Add songs from search, favorites, or playlists
+  </Card>
+  <Card title="Play next" icon="arrow-up">
+    Insert a track to play immediately after current song
+  </Card>
+  <Card title="Shuffle" icon="shuffle">
+    Randomize queue order for varied playback
+  </Card>
+  <Card title="Repeat" icon="repeat">
+    Loop single track or entire queue
+  </Card>
+</CardGroup>
+
+### Adding to queue
+
+Multiple ways to add songs to your queue:
+
+1. **From search** - Click any song to play (replaces queue) or use "+" to add
+2. **From playlists** - Add individual tracks or entire playlist
+3. **From favorites** - Queue up your saved tracks
+4. **From albums** - Add full album to queue
+
+### Queue context menu
+
+Right-click or long-press any queued track for options:
+
+- Play this track now
+- Move to top of queue
+- Remove from queue
+- Add to favorites
+- Add to playlist
+- Download (if Tidal)
+
+## Shuffle mode
+
+Randomize your playback queue for varied listening.
+
+### How shuffle works
+
+1. Click the shuffle button in playback controls
+2. Queue is randomized immediately
+3. Current track continues playing
+4. Next track is random from queue
+
+### Shuffle behavior
+
+- **Smart shuffling** - Avoids repeating recently played tracks
+- **Persistent state** - Shuffle setting saved across sessions
+- **Visual indicator** - Button highlighted when shuffle is active
+- **Queue preview** - See shuffled order in queue view
+
+<Info>
+Disabling shuffle restores the queue to its original order, preserving your manually arranged tracks.
+</Info>
+
+## Repeat modes
+
+Loop single tracks or your entire queue.
+
+### Repeat options
+
+<Tabs>
+  <Tab title="Off">
+    **No repeat** - Queue plays once then stops
+    
+    - Default mode
+    - Playback stops after last track
+    - Icon: repeat symbol (inactive)
+  </Tab>
+  <Tab title="Single">
+    **Repeat single** - Current track loops indefinitely
+    
+    - Perfect for focusing on one song
+    - Track restarts when it ends
+    - Icon: repeat.1 symbol
+  </Tab>
+  <Tab title="All">
+    **Repeat all** - Queue loops continuously
+    
+    - Great for playlists and albums
+    - Returns to first track after last
+    - Icon: repeat symbol (active)
+  </Tab>
+</Tabs>
+
+### Cycling through modes
+
+Click the repeat button to cycle through modes:
+
+```
+Off → Single → All → Off → ...
+```
+
+The button icon and color change to indicate the current mode.
+
+## Playback state
+
+Izzy tracks multiple playback states with visual indicators.
+
+### States
+
+| State | Description | Visual |
+|-------|-------------|--------|
+| Stopped | No track loaded | Empty player |
+| Playing | Track is playing | Animated play button |
+| Paused | Playback paused | Static pause button |
+| Buffering | Loading audio stream | Spinner animation |
+| Error | Playback failed | Error message with retry option |
+
+### Error handling
+
+If playback fails, Izzy shows:
+
+- **Error message** - Clear description of what went wrong
+- **Retry button** - Attempt to play the track again
+- **Skip option** - Move to next track in queue
+- **Console logs** - Detailed error information for troubleshooting
+
+<Warning>
+If you consistently get playback errors, check your internet connection and ensure the Python service is running (check Console.app logs).
+</Warning>
+
+## Advanced features
+
+### Prefetching
+
+Izzy automatically prefetches the next track in queue:
+
+- **Background loading** - Next track streams are prepared while current track plays
+- **Seamless transitions** - No gap between tracks
+- **Smart caching** - Frequently played tracks are cached
+- **Bandwidth efficient** - Only prefetches when necessary
+
+### Gapless playback
+
+Experience smooth transitions between tracks:
+
+- Next track starts instantly when current ends
+- No silence or delay between songs
+- Perfect for albums and DJ mixes
+- Works with all music services
+
+### Stream caching
+
+Optimized caching system for better performance:
+
+- **1-hour cache lifetime** - Streams cached for quick re-access
+- **Automatic cleanup** - Expired streams removed automatically
+- **Instant seeking** - No re-buffering when seeking in cached tracks
+- **Memory efficient** - Cache size managed automatically

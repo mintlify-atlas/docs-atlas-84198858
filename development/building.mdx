@@ -1,0 +1,208 @@
+---
+title: Building the app
+description: Build Izzy Music Player using Xcode and create distributable DMG files
+---
+
+This guide covers building Izzy Music Player from source and creating distributable DMG files.
+
+## Building in Xcode
+
+The simplest way to build and run Izzy Music Player is directly from Xcode.
+
+<Steps>
+  <Step title="Open the project">
+    Open the Xcode project:
+    
+    ```bash
+    open Izzy.xcodeproj
+    ```
+  </Step>
+  
+  <Step title="Select scheme">
+    In Xcode, select the "Izzy" scheme from the scheme selector at the top of the window.
+  </Step>
+  
+  <Step title="Build and run">
+    Press `Cmd + R` to build and run the app, or click the Play button in the toolbar.
+  </Step>
+</Steps>
+
+## Building from command line
+
+You can also build Izzy using `xcodebuild` from the command line:
+
+```bash
+xcodebuild -project Izzy.xcodeproj \
+           -scheme Izzy \
+           -configuration Release \
+           build
+```
+
+This builds the Release configuration of the app.
+
+## Creating a DMG
+
+To create a distributable DMG file, use the provided build script.
+
+<Steps>
+  <Step title="Prepare the build script">
+    Make the DMG build script executable:
+    
+    ```bash
+    chmod +x build_dmg.sh
+    ```
+  </Step>
+  
+  <Step title="Run the build script">
+    Execute the build script:
+    
+    ```bash
+    ./build_dmg.sh
+    ```
+    
+    This script performs the following steps:
+    - Cleans previous builds
+    - Builds the app using xcodebuild
+    - Creates an archive
+    - Exports the app
+    - Bundles the Python backend and dependencies
+    - Creates a DMG file
+  </Step>
+  
+  <Step title="Locate the DMG">
+    After successful completion, the DMG will be located at:
+    
+    ```
+    dist/Izzy.dmg
+    ```
+    
+    The script also displays the file size of the generated DMG.
+  </Step>
+</Steps>
+
+## Build process details
+
+The `build_dmg.sh` script automates the entire build and packaging process:
+
+### Archive creation
+
+```bash
+xcodebuild -project Izzy.xcodeproj \
+           -scheme Izzy \
+           -configuration Release \
+           -derivedDataPath build \
+           -archivePath build/Izzy.xcarchive \
+           archive
+```
+
+### App export
+
+```bash
+xcodebuild -exportArchive \
+           -archivePath build/Izzy.xcarchive \
+           -exportPath build/Release \
+           -exportOptionsPlist ExportOptions.plist
+```
+
+### Python backend bundling
+
+The script bundles the Python backend into the app's Resources directory:
+
+- Copies `ytmusic_service.py`
+- Bundles the `music_env` virtual environment (if present)
+- Includes update files (`update.json`, `appcast.xml`, `release-notes.html`)
+
+### DMG creation
+
+The final DMG is created using `hdiutil`:
+
+```bash
+hdiutil create -volname "Izzy" \
+               -srcfolder <DMG_TEMP_DIR> \
+               -ov \
+               -format UDZO \
+               dist/Izzy.dmg
+```
+
+The DMG includes:
+- The Izzy.app bundle
+- A symbolic link to the Applications folder for easy installation
+- README file (if `DMG_README.md` exists)
+
+## Code signing
+
+If you need to sign the app for distribution, set the `CODESIGN_IDENTITY` environment variable before running the build script:
+
+```bash
+export CODESIGN_IDENTITY="Developer ID Application: Your Name (TEAM_ID)"
+./build_dmg.sh
+```
+
+The script will automatically:
+- Re-sign the app bundle with your identity
+- Verify the code signature
+- Ensure the app is properly signed for distribution
+
+<Warning>
+  Without a valid signing identity, the app will still build but users will need to bypass Gatekeeper using the `xattr` command.
+</Warning>
+
+## Build configurations
+
+Izzy supports two build configurations:
+
+- **Debug** - For development with debug symbols and verbose logging
+- **Release** - Optimized build for distribution
+
+The `build_dmg.sh` script uses the Release configuration by default.
+
+## Troubleshooting
+
+### Build fails
+
+If the build fails, check:
+
+1. Xcode is properly installed and up to date
+2. Command Line Tools are installed: `xcode-select --install`
+3. All dependencies are installed: `pip install -r requirements.txt`
+
+### App not found after build
+
+If `build/Release/Izzy.app` is not found after building:
+
+```bash
+# Check build logs for errors
+xcodebuild -project Izzy.xcodeproj \
+           -scheme Izzy \
+           -configuration Release \
+           build | tee build.log
+```
+
+### Code signing errors
+
+If code signing fails:
+
+1. Verify your signing identity: `security find-identity -v -p codesigning`
+2. Ensure `CODESIGN_IDENTITY` matches exactly
+3. Check that your certificates are valid and not expired
+
+### DMG creation fails
+
+If `hdiutil` fails to create the DMG:
+
+```bash
+# Check disk space
+df -h
+
+# Verify the app bundle exists
+ls -la build/Release/Izzy.app
+```
+
+## Next steps
+
+After building the app successfully:
+
+- Test the app thoroughly on your system
+- Verify all features work as expected
+- Consider adding your Gemini API key in Settings for AI features
+- Report any issues on the [GitHub repository](https://github.com/ShubhamPP04/Izzy)

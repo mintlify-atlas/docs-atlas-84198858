@@ -1,0 +1,222 @@
+---
+title: Architecture
+description: Overview of Izzy Music Player's hybrid Swift and Python architecture
+---
+
+Izzy Music Player uses a hybrid architecture combining a native Swift/SwiftUI frontend with a Python backend service for music streaming integration.
+
+## Architecture overview
+
+The application follows a clean, modular architecture with clear separation of concerns:
+
+```
+┌─────────────────────────────────────────┐
+│         SwiftUI Frontend                │
+│  ┌─────────────────────────────────┐   │
+│  │         Views Layer             │   │
+│  │  (HomeView, SearchView, etc.)   │   │
+│  └────────────┬────────────────────┘   │
+│               │                         │
+│  ┌────────────▼────────────────────┐   │
+│  │       Managers Layer            │   │
+│  │  (Playback, Search, Menu Bar)   │   │
+│  └────────────┬────────────────────┘   │
+│               │                         │
+│  ┌────────────▼────────────────────┐   │
+│  │       Services Layer            │   │
+│  │  (Download, Update, Python)     │   │
+│  └────────────┬────────────────────┘   │
+└───────────────┼─────────────────────────┘
+                │ JSON/Pipe Communication
+┌───────────────▼─────────────────────────┐
+│       Python Backend Service            │
+│  ┌─────────────────────────────────┐   │
+│  │    ytmusic_service.py           │   │
+│  │  - YouTube Music API            │   │
+│  │  - JioSaavn Integration         │   │
+│  │  - Tidal Integration            │   │
+│  │  - Stream URL Extraction        │   │
+│  └─────────────────────────────────┘   │
+└─────────────────────────────────────────┘
+```
+
+## Frontend architecture (Swift)
+
+### Entry point
+
+The app starts in `IzzyApp.swift:11`, which initializes the SwiftUI application with battery-optimized settings:
+
+```swift
+@main
+struct IzzyApp: App {
+    @StateObject private var appCoordinator = AppCoordinator()
+    
+    init() {
+        // Configure URLCache to prevent memory bloat
+        let cache = URLCache(memoryCapacity: 50 * 1024 * 1024, 
+                            diskCapacity: 100 * 1024 * 1024)
+        URLCache.shared = cache
+    }
+}
+```
+
+The app runs as a menu bar accessory (no dock icon) and uses a floating panel interface triggered by global hotkeys.
+
+### Core coordinator
+
+`AppCoordinator.swift:12` orchestrates the entire application lifecycle:
+
+- Initializes managers (window, hotkey, search)
+- Coordinates communication between managers
+- Handles app activation/deactivation events
+- Manages periodic tasks (update checks, memory cleanup)
+- Saves playback state on termination
+
+### Managers layer
+
+Managers handle specific domains of functionality:
+
+| Manager | Location | Responsibility |
+|---------|----------|----------------|
+| **PlaybackManager** | `Managers/PlaybackManager.swift:309` | Audio playback, queue management, playback state |
+| **MusicSearchManager** | `Managers/MusicSearchManager.swift:309` | Music search, filtering, result processing |
+| **MenuBarManager** | `Managers/MenuBarManager.swift:309` | Menu bar player UI and controls |
+| **MiniPlayerManager** | `Managers/MiniPlayerManager.swift:309` | Floating mini player window |
+| **PlaylistManager** | `Managers/PlaylistManager.swift:309` | Playlist creation and management |
+| **NowPlayingManager** | `Managers/NowPlayingManager.swift:309` | macOS Now Playing integration |
+| **AISearchViewModel** | `Managers/AISearchViewModel.swift:309` | AI-powered music search with Gemini |
+
+### Services layer
+
+Services provide infrastructure and external integrations:
+
+| Service | Location | Purpose |
+|---------|----------|----------|
+| **PythonServiceManager** | `Services/PythonServiceManager.swift:81` | Manages Python backend process, handles JSON communication |
+| **DownloadManager** | `Services/DownloadManager.swift:309` | Handles music downloads and file management |
+| **UpdateManager** | `Services/UpdateManager.swift:309` | Checks for app updates via GitHub releases |
+| **GeminiService** | `Services/GeminiService.swift:309` | Gemini AI API integration for smart search |
+
+### Models layer
+
+Data models represent music entities and application state:
+
+- `MusicModels.swift:309` - Core models (SearchResult, Track, StreamInfo, PlaybackState)
+- `Playlist.swift:309` - Playlist data structures
+- Music sources (YouTube Music, JioSaavn, Tidal)
+- Search result types (songs, albums, artists, playlists)
+
+### Views layer
+
+SwiftUI views for the user interface:
+
+- **Main Views**: HomeView, SearchResultsView, MusicSearchView
+- **Playback Views**: PlaybackControlsView, QueueView, UpNextView
+- **Library Views**: FavoritesView, PlaylistView, RecentlyPlayedView
+- **Settings**: SettingsView, AISearchView
+- **Components**: Custom UI components and modifiers
+
+## Backend architecture (Python)
+
+### Python service process
+
+The backend runs as a separate Python process (`ytmusic_service.py:1`) managed by `PythonServiceManager`. It:
+
+- Starts on-demand when music features are needed
+- Communicates via stdin/stdout using JSON messages
+- Automatically suspends after 4 minutes of inactivity (battery optimization)
+- Restarts automatically on failure with retry logic
+
+### Music service integrations
+
+The Python backend integrates with multiple music services:
+
+#### YouTube Music (ytmusicapi)
+- Search songs, albums, artists, playlists
+- Get stream URLs via yt-dlp
+- Browse home feed, charts, mood playlists
+- Watch playlist and radio features
+
+#### JioSaavn
+- Indian music streaming service
+- Search and stream from JioSaavn catalog
+- Uses saavn.dev API
+
+#### Tidal
+- Hi-Res lossless audio streaming
+- Quality badges (HI_RES_LOSSLESS, LOSSLESS, etc.)
+- Paginated artist songs and playlists
+
+### Communication protocol
+
+Swift and Python communicate using a JSON-based request/response protocol:
+
+**Request format:**
+```json
+{
+  "action": "search",
+  "query": "bohemian rhapsody",
+  "limit": 20,
+  "musicSource": "youtube_music"
+}
+```
+
+**Response format:**
+```json
+{
+  "success": true,
+  "data": {
+    "songs": [...],
+    "albums": [...]
+  },
+  "error": null
+}
+```
+
+Supported actions:
+- `search` - Search for music
+- `stream` - Get stream URL for a track
+- `album_tracks` - Get album contents
+- `playlist_tracks` - Get playlist contents
+- `artist_songs` - Get artist discography
+- `home` - Get home feed
+- `charts` - Get music charts
+- `ai_search` - AI-powered search with Gemini
+
+## State management
+
+State is managed through SwiftUI's observation system:
+
+- `@StateObject` - For manager ownership
+- `@ObservedObject` - For shared state observation
+- `@Published` - For reactive property changes
+- `UserDefaults` - For persistent settings
+- File-based persistence - For playback state and favorites
+
+## Battery optimizations
+
+Izzy is designed for minimal battery impact:
+
+- **Process priority**: Python service runs at `.utility` QoS
+- **App activation policy**: `.accessory` mode (no dock icon)
+- **Inactivity suspension**: Python service stops after 4 minutes idle
+- **Memory management**: Automatic image cache clearing every 10 minutes
+- **Reduced logging**: Python configured for minimal I/O
+- **On-demand startup**: Services start only when needed
+
+## Threading model
+
+- **Main thread**: UI rendering and updates
+- **Service queue**: Python communication (`DispatchQueue` with `.utility` QoS)
+- **Background tasks**: Download manager, update checks
+- **Async/await**: Used for Python service requests
+
+## Error handling
+
+Robust error handling at multiple levels:
+
+- Service retry logic (up to 3 attempts)
+- Automatic service restart on failure
+- Graceful degradation when Python service unavailable
+- User-facing error messages in UI
+- Crash prevention with try/catch blocks
