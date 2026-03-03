@@ -1,0 +1,106 @@
+{
+  "projectType": "frontend",
+  "projectName": "Izzy Music Player",
+  "projectDescription": "A battery-efficient macOS music player with YouTube Music, Tidal, and JioSaavn integration, featuring AI-powered recommendations and beautiful glassmorphism design.",
+  "theme": "almond",
+  "primaryColor": "#FF6B6B",
+  "lightColor": "#FFB4B4",
+  "darkColor": "#D94545",
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Documentation",
+        "groups": [
+          {
+            "group": "Get Started",
+            "pages": [
+              "introduction",
+              "installation",
+              "quickstart"
+            ]
+          },
+          {
+            "group": "Features",
+            "pages": [
+              "features/music-services",
+              "features/core-features",
+              "features/playback-controls",
+              "features/ai-recommendations",
+              "features/downloads"
+            ]
+          },
+          {
+            "group": "User Guide",
+            "pages": [
+              "guide/usage",
+              "guide/keyboard-shortcuts",
+              "guide/settings",
+              "guide/troubleshooting"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Development",
+        "groups": [
+          {
+            "group": "Architecture",
+            "pages": [
+              "development/architecture",
+              "development/project-structure",
+              "development/technologies"
+            ]
+          },
+          {
+            "group": "Building",
+            "pages": [
+              "development/prerequisites",
+              "development/setup",
+              "development/building"
+            ]
+          },
+          {
+            "group": "Contributing",
+            "pages": [
+              "development/contributing",
+              "development/code-style"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "keyFeatures": [
+    "YouTube Music, Tidal, and JioSaavn integration",
+    "AI-powered music recommendations with Gemini",
+    "Hi-Res lossless audio support (up to 24-bit/192kHz FLAC)",
+    "Global hotkey (Option + Space) for quick access",
+    "Menu bar integration with album artwork",
+    "Floating window with glassmorphism design",
+    "Smart search with real-time suggestions",
+    "Queue management and playlist support",
+    "Song downloads with embedded metadata",
+    "Battery-optimized playback with advanced prefetching",
+    "Media key integration",
+    "Lyrics support",
+    "Mini player mode"
+  ],
+  "publicApiSurface": [
+    "PlaybackManager - Audio playback control",
+    "MusicSearchManager - Search across music services",
+    "PlaylistManager - Playlist management",
+    "DownloadManager - Song download service",
+    "NowPlayingManager - Now Playing integration",
+    "MenuBarManager - Menu bar player",
+    "MiniPlayerManager - Mini player window",
+    "AISearchViewModel - AI-powered search",
+    "PythonServiceManager - Python backend bridge",
+    "GeminiService - Gemini AI integration",
+    "UpdateManager - Auto-update service",
+    "GlobalHotkeyManager - Hotkey registration",
+    "Track - Music track model",
+    "SearchResult - Search result model",
+    "Playlist - Playlist model",
+    "MusicSource - Music service enum (YouTube Music, Tidal, JioSaavn)"
+  ]
+}
